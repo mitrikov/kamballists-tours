@@ -1,0 +1,76 @@
+version: '3.5'
+services:
+    #Nginx Service
+    ac-nginx:
+        image: nginx:alpine
+        build:
+            context: ./docker/nginx/
+            dockerfile: ./Dockerfile
+        container_name: ac-nginx
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - ./backend:/var/www/backend:ro,cached
+            - ./docker/nginx/app.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - ac-backend
+        ports:
+            - "8088:80"
+            - "4433:443"
+        networks:
+            - ac-network
+
+    #PHP Laravel Service
+    ac-backend:
+        image: ac-backend
+        build:
+            context: .
+            dockerfile: ./backend/Dockerfile
+        container_name: ac-backend
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: ac-backend
+            SERVICE_TAGS: dev
+        depends_on:
+            - ac-db
+        volumes:
+            - ./backend/.env.production:/var/www/backend/.env
+        networks:
+            - ac-network
+
+
+    #MySQL Service
+    ac-db:
+        image: mysql:8.0
+#        volumes:
+#            - ./mysql:/var/lib/mysql
+        container_name: ac-db
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "3307:3306"
+        environment:
+            MYSQL_DATABASE: ac
+            MYSQL_ROOT_PASSWORD: TYwGG0iBxPLxZ8Wb
+#        networks:
+#            - ac-network
+
+    ac-frontend:
+        container_name: ac-frontend
+        image: ac-frontend
+        build:
+          context: ./frontend
+          dockerfile: ./Dockerfile
+        volumes:
+          - /node_modules
+        restart: unless-stopped
+        env_file:
+          - ./frontend/.env.production
+        networks:
+            - ac-network
+
+#Docker Networks
+networks:
+    ac-network:
+        driver: bridge
