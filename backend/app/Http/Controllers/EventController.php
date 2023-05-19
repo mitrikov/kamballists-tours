@@ -11,7 +11,6 @@ class EventController extends Controller
    public function get(Request $req) {
        $postsPerPage = 20;
        $result = Event::where('_id', '!=', '0');
-//       $events = Event::findMany();
 
        return response()->json($result->paginate($postsPerPage), 200);
    }
@@ -25,6 +24,4 @@ class EventController extends Controller
             return response()->json($result, 200);
         }
     }
-
-
 }
