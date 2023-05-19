@@ -32,6 +32,11 @@ ARG HOST_GID=1000
 #    jpegoptim optipng pngquant gifsicle \
 #    unzip \
 #    libmcrypt-dev
+RUN apt-get update && \
+    apt-get install -y autoconf pkg-config libssl-dev git libzip-dev zlib1g-dev && \
+    pecl install mongodb && docker-php-ext-enable mongodb && \
+    pecl install xdebug && docker-php-ext-enable xdebug && \
+    docker-php-ext-install -j$(nproc) pdo_mysql zip
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -80,12 +85,12 @@ COPY --chown=${USERNAME}:${USERNAME} ./backend $APP_HOME/
 COPY --chown=${USERNAME}:${USERNAME} ./backend/.env.production $APP_HOME/.env
 
 # install all PHP dependencies
-RUN composer install --prefer-dist --no-dev --no-interaction --optimize-autoloader
+RUN composer install --ignore-platform-reqs --prefer-dist --no-dev --no-interaction --optimize-autoloader
 
 #RUN php artisan key:generate
 RUN php artisan key:generate
 RUN php artisan route:cache
-RUN sudo pecl install mongodb && docker-php-ext-enable mongodb
+
 
 USER root
 # Expose port 9000 and start php-fpm server
