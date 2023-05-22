@@ -70,23 +70,13 @@ services:
           - ./frontend/.env.production
         networks:
             - tours-network
-    #mongo-express:
-    #    #image: mongo-express
-    #    image: mongo-express:0.49.0
-    #    restart: always
-    #    ports:
-    #    - 8081:8081
-    #    depends_on:
-    #        - mongo
-    #    environment:
-    #        ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-    #        ME_CONFIG_MONGODB_ADMINPASSWORD: admin
-    #        ME_CONFIG_MONGODB_ENABLE_ADMIN: false
-    #        ME_CONFIG_MONGODB_AUTH_USERNAME: admin
-    #        ME_CONFIG_MONGODB_AUTH_PASSWORD: admin
-    #        ME_CONFIG_BASICAUTH_USERNAME: admin
-    #        ME_CONFIG_BASICAUTH_PASSWORD: admin
-    #        ME_CONFIG_MONGODB_URL: "mongodb://admin:admin@mongo:27017/"
+    
+    #tours-ml:
+    #    container_name: tours-ml
+    #    build:
+    #        context: ./ml
+    #        dockerfile: ./Dockerfile
+    #    restart: unless-stopped
     #    networks:
     #        - tours-network
 #Docker Networks
