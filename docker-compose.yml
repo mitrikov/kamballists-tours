@@ -54,6 +54,8 @@ services:
           - '27017'
         env_file:
           - ./db/.env.production
+        networks:
+            - tours-network
 
     tours-frontend:
         container_name: tours-frontend
