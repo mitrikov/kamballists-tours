@@ -50,10 +50,21 @@ services:
           - ./db/mongo-volume:/data/db
         ports:
             - '27017:27017'
-        expose:
-          - '27017'
+        # expose:
+        #   - '27017'
         env_file:
           - ./db/.env.production
+        networks:
+            - tours-network
+
+    tours-mongo-seed:
+        image: mongo
+        links:
+            - tours-mongo
+        volumes:
+            - ./db/mongo-seed:/mongo-seed
+        command:
+            /mongo-seed/import.sh
         networks:
             - tours-network
 
