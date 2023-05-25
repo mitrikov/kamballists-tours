@@ -5,25 +5,26 @@ import ItemYandexMap from '@/components/ItemYandexMap.vue'
 
 <template>
   <header>
-    <nav class="menu">
-      <div class="menu-left">
-        <div class="menu-logo"></div>
-        <ul class="menu-left__list">
-          <li><a href="#">Меню</a></li>
-          <li><a href="#">Поиск</a></li>
-          <li><a href="#">Бонусы</a></li>
-        </ul>
-      </div>
+    <div class="container">
+      <nav class="menu">
+        <div class="menu-left">
+          <div class="menu-logo"></div>
+          <ul class="menu-left__list">
+            <li><a href="#">Меню</a></li>
+            <li><a href="#">Поиск</a></li>
+            <li><a href="#">Бонусы</a></li>
+          </ul>
+        </div>
 
-      <ul class="menu-right__list">
-        <li><a href="#">РУС / RUB</a></li>
-        <li><a href="#">Поддержка</a></li>
-        <li><a href="#">Избранное</a></li>
-        <li><a href="#">Профиль</a></li>
-      </ul>
-    </nav>
+        <ul class="menu-right__list">
+          <li><a href="#">РУС / RUB</a></li>
+          <li><a href="#">Поддержка</a></li>
+          <li><a href="#">Избранное</a></li>
+          <li><a href="#">Профиль</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
-  <ItemYandexMap />
   <RouterView />
 </template>
 
