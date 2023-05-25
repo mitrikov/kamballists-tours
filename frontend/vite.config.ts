@@ -10,5 +10,16 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+
+
+  css: {
+    preprocessorOptions: {
+      sass: {
+        additionalData: `
+         @use "@/assets/sass/helpers.sass"
+       `
+      },
+    },
   }
 })
