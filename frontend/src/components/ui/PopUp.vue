@@ -12,7 +12,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 let uuid = 1;
 
 export default {

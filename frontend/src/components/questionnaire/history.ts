@@ -1,5 +1,7 @@
-import {Component} from "vue";
+import { type Component } from "vue";
 import ItemListQuestions from '@/components/questionnaire/itemListQuestions.vue'
+
+
 export class Story {
     private title: String
     private component: Component | null
@@ -7,7 +9,7 @@ export class Story {
     private paths: Array<Story>
     private step: Number | null
 
-    constructor(title, component = null, step = null) {
+    constructor(title: String, component = null, step = null) {
         this.title = title
         this.component = component
         this.parent = null
@@ -15,7 +17,7 @@ export class Story {
         this.step = step
     }
 
-    addPath(path){
+    addPath(path: Story){
         this.paths.push(path)
         this.paths[this.paths.length - 1].parent = this
         return this.paths[this.paths.length - 1]
@@ -41,8 +43,10 @@ export class Story {
         return this.step
     }
 
-    getParent(){
-        return this.parent
+    getParent(): Story | null {
+        if(this.parent)
+            return this.parent
+        return null
     }
 
     getPaths(){
