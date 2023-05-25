@@ -1,5 +1,5 @@
 <template>
-  <div @click="selectItem()" ref="element" class="card">$event.target
+  <div @click="selectItem()" ref="element" class="card">
     <img src="@/assets/images/card-img.png" alt="" class="card-img">
     <p class="card-text">Я знаю город и даты поездки</p>
   </div>
