@@ -50,6 +50,7 @@ services:
           - ./db/mongo-volume:/data/db
         ports:
             - '27017:27017'
+            - '27018:27017'
         # expose:
         #   - '27017'
         env_file:
