@@ -2,10 +2,12 @@ import axios from "axios"
 import {defineStore} from "pinia"
 import story from "@/components/questionnaire/history.ts"
 import {ref} from "vue";
+import {Antworten} from "@/helpers";
 
 const useHistoryStore = defineStore('history', {
     state : () => ({
         stage: ref(story),
+        antworten: ref(new Antworten())
     }),
 
     getters: {

@@ -49,10 +49,3 @@ export enum Cuisines {
     russian = "russian",
     chinese = "chinese"
 }
-
-export interface IAntworten {
-    traveler_type: TravelerType
-    traveler_wealth: TravelerWealth
-    interests (array): Array<Interests>
-    cuisines (array): Array<Cuisines>
-}

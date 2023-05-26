@@ -1,4 +1,5 @@
 import axios from "axios";
+import {Cuisines, Interests, TravelerType, TravelerWealth} from "@/interfaces";
 
 export class Server {
     private static url : string | undefined = import.meta.env.VITE_BACKEND_URL
@@ -32,5 +33,12 @@ export class Server {
         }
     }
 }
-
 export const server = new Server()
+
+export class Antworten {
+    private traveler_type: TravelerType
+    private traveler_wealth: TravelerWealth
+    private interests: Array<Interests>
+    private cuisines: Array<Cuisines>
+}
+
