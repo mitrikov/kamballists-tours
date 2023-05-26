@@ -11,6 +11,11 @@ class Event extends Model
     protected $connection = 'mongodb';
     protected $collection = 'events';
     protected $primaryKey = '_id';
+
+
+
+
+
     //{
     //_id:{
     //$oid: str  // id объекта коллекции

@@ -1,6 +1,15 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import Questionnaire from '@/components/questionnaire/Questionnaire.vue'
 import ItemCardOrder from '@/components/ItemCardOrder.vue'
+import useEventsStore from "@/stores/events";
+import {onMounted} from "vue";
+
+const excursionsStore = useEventsStore()
+
+onMounted(async () => {
+  excursionsStore.events = (await excursionsStore.fetchEvents()).data
+  console.log(excursionsStore.events)
+})
 
 </script>
 <template>
