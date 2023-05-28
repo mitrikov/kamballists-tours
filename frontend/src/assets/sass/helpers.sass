@@ -1,0 +1,77 @@
+$sm: 576px
+$md: 768px
+$lg: 992px
+$xl: 1200px
+$xxl: 1400px
+
+$container-gap: 1.5rem
+$container-gap-x2: calc($container-gap * 2)
+$container-gap-md: 1rem
+$container-gap-x2-md: calc($container-gap-md * 2)
+
+$section-gap: 7rem
+$section-gap-lg: 4rem
+$section-gap-md: 3rem
+
+@font-face
+  font-family: "Suisse Intl"
+  font-weight: 400
+  src: url("@/assets/fonts/SuisseIntl-Regular.otf")
+@font-face
+  font-family: "Suisse Intl"
+  font-weight: 500
+  src: url("@/assets/fonts/SuisseIntl-SemiBold.otf")
+@font-face
+  font-family: "Suisse Intl"
+  font-weight: bold
+  src: url("@/assets/fonts/SuisseIntl-Bold.otf")
+
+.container
+  max-width: 1320px
+  margin: 0 auto
+
+  &[data-type='hgaps']
+    padding-left: $container-gap
+    padding-right: $container-gap
+    @media (max-width: $md)
+      padding-left: $container-gap-md
+      padding-right: $container-gap-md
+
+  &[data-type='vgaps']
+    padding-top: $container-gap
+    padding-bottom: $container-gap
+    @media (max-width: $md)
+      padding-top: $container-gap-md
+      padding-bottom: $container-gap-md
+
+  &[data-type='gaps']
+    @extend .container, [data-type='hgaps'], [data-type='vgaps']
+
+  &[data-type='article']
+    @extend .container, [data-type='gaps']
+    max-width: 620px
+
+//ноухаусетка
+.row
+  display: grid
+  grid-template-columns: repeat(6, 1fr)
+  grid-template-areas: "z1 z2 z3" "z4 z5 z6" "z7 z8 z9"
+  gap: 20px
+.col
+  grid-column: span 1
+.col2
+  grid-column: span 2
+.col3
+  grid-column: span 3
+.col4
+  grid-column: span 4
+.col5
+  grid-column: span 5
+.col6
+  grid-column: span 6
+.flex
+  display: flex
+.jc-c
+  justify-content: center
+.ai-c
+  justify-content: center

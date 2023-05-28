@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Errors;
 use App\Models\Tour;
 use Illuminate\Http\Request;
 

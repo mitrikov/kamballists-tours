@@ -100,6 +100,7 @@ return [
             'password' => env('DB_PASSWORD', 'secret'),
             'options' => [
                 'appname' => 'tours',
+                'authSource' => 'admin'
             ],
 
     ],
