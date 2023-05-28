@@ -3,6 +3,7 @@ import {type Ref, ref} from "vue";
 import {server} from "@/helpers";
 
 const useEventsStore = defineStore('events', () => {
+    const eventsPag : Ref<Array<{  }>> = ref([])
     const events : Ref<Array<{  }>> = ref([])
 
     const fetchEvents = async () : Promise<Array<{  }>>  => {
@@ -15,10 +16,20 @@ const useEventsStore = defineStore('events', () => {
         return result
     }
 
+    const like = async(user_id, event) => {
+        console.log(event._id)
+        await server.get(`like`, {
+            user_id: user_id,
+            event_id: event._id,
+        })
+    }
+
     return {
+        eventsPag,
         events,
         fetchEvents,
         fetchByEventId,
+        like,
     }
 })
 

@@ -6,8 +6,10 @@ import {onMounted} from "vue";
 
 const excursionsStore = useEventsStore()
 
+
 onMounted(async () => {
-  excursionsStore.events = (await excursionsStore.fetchEvents()).data
+  excursionsStore.eventsPag = await excursionsStore.fetchEvents()
+  excursionsStore.events = excursionsStore.eventsPag.data
 })
 
 </script>
@@ -15,9 +17,9 @@ onMounted(async () => {
   <main>
     <Questionnaire />
     <div class="container">
-      <div class="row">
-        <div class="col2" v-for="i in 10">
-          <ItemCardOrder />
+      <div class="row" v-if="excursionsStore.events.length != 0">
+        <div class="col2" v-for="event in excursionsStore.events">
+          <ItemCardOrder :event="event" />
         </div>
       </div>
     </div>

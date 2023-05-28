@@ -20,7 +20,7 @@ export class Server {
         }
 
         try {
-            const response = await axios.get(`${Server.url}/backend/api/${endpoint}${paramsString}?page=1`)
+            const response = await axios.get(`${Server.url}/backend/api/${endpoint}${paramsString}`)
             return response.data
         } catch(error : any) {
             if (axios.isAxiosError(error))  {
