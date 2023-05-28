@@ -28,8 +28,4 @@ UIcomponents.forEach(component => {
     app.component(component.name, component)
 })
 
-UIcomponents.forEach(component => {
-    app.component(component.name, component)
-})
-
 app.mount('#app')

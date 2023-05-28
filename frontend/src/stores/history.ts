@@ -1,11 +1,14 @@
 import axios from "axios"
 import {defineStore} from "pinia"
-import story from "@/components/questionnaire/history.ts"
-import {ref} from "vue";
+import story, {Story} from "@/components/questionnaire/history.ts"
+import {Ref, ref} from "vue";
+import {Answer} from "@/helpers";
 
 const useHistoryStore = defineStore('history', {
     state : () => ({
         stage: ref(story),
+        answer: ref(new Answer()),
+        nextStep: null as Story | null,
     }),
 
     getters: {
@@ -22,9 +25,10 @@ const useHistoryStore = defineStore('history', {
                 this.stage = this.stage.getParent()
         },
 
-        nextStep(){
-            if(this.stage.getPaths()[0])
-                this.stage = this.stage.getPaths()[0]
+        next(){
+            if(this.nextStep)
+                this.stage = this.nextStep
+            this.nextStep = null
         },
     }
 })
