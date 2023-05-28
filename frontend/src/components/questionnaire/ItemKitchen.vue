@@ -1,20 +1,39 @@
 <script setup lang="ts">
+import {ref} from "vue";
+import useHistoryStore from "@/stores/history";
+
 const kitchen = [
-  { name: 'Европейская', img: 'kitchen1.png' },
-  { name: 'Японская', img: 'kitchen2.png' },
-  { name: 'Индийская', img: 'kitchen3.png' },
-  { name: 'Итальянская', img: 'kitchen4.png' },
-  { name: 'Грузинская', img: 'kitchen5.png' },
-  { name: 'Фастфуд', img: 'kitchen6.png' },
-  { name: 'Народов России', img: 'kitchen7.png' },
-  { name: 'Китайская', img: 'kitchen8.png' }
+  { value: 'europe', name: 'Европейская', img: 'kitchen1.png' },
+  { value: 'japan', name: 'Японская', img: 'kitchen2.png' },
+  { value: 'india', name: 'Индийская', img: 'kitchen3.png' },
+  { value: 'italia', name: 'Итальянская', img: 'kitchen4.png' },
+  { value: 'georgian', name: 'Грузинская', img: 'kitchen5.png' },
+  { value: 'fastFood', name: 'Фастфуд', img: 'kitchen6.png' },
+  { value: 'russian', name: 'Народов России', img: 'kitchen7.png' },
+  { value: 'chinese', name: 'Китайская', img: 'kitchen8.png' }
 ]
+const list = ref(new Set())
+const historyStore = useHistoryStore()
+function add(value){
+  console.log(list.value)
+  if(list.value.has(value)){
+    list.value.delete(value)
+  } else {
+    list.value.add(value)
+  }
+
+  historyStore.answer.cuisines = [...list.value]
+
+  if([...list.value].length > 5){
+    historyStore.nextStep = historyStore.getHistory().getPaths()[0]
+  }
+}
 </script>
 
 <template>
   <div class="row">
     <div v-for="i in kitchen" class="col">
-      <div class="item">
+      <div class="item" @click="add(i.value)" :class="list.has(i.value) ? 'active' : ''">
         <img :src="`/${i.img}`" :alt="i.name">
         <h5 class="item-title">
           {{ i.name }}
@@ -39,4 +58,6 @@ const kitchen = [
     color: var(--color-primary)
     margin-left: 10px
     margin-bottom: 7px
+.active
+  border: 2px solid var(--color-global-secondary)
 </style>

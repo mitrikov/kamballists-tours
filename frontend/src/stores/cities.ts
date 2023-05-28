@@ -6,7 +6,7 @@ const useCitiesStore = defineStore('cities', () => {
     const cities : Ref<Array<{}>> = ref([])
 
     const getCities = () : Array<String> => {
-        return cities.value.data.map(item => {
+        return cities.value.map(item => {
             return item.dictionary_data.title as String
         })
     }
@@ -14,6 +14,12 @@ const useCitiesStore = defineStore('cities', () => {
     const fetchEvents = async () : Promise<Array<{  }>>  => {
         const result = await server.get("cities")
         return result
+    }
+
+    const getObject = (cityName) => {
+        return cities.value.find(city => {
+            return city.dictionary_data.title == cityName
+        })
     }
 
     const fetchByEventId = async(id : number) : Promise<Array<{  }>> =>  {
@@ -25,6 +31,7 @@ const useCitiesStore = defineStore('cities', () => {
         cities,
         getCities,
         fetchEvents,
+        getObject,
         fetchByEventId,
     }
 })

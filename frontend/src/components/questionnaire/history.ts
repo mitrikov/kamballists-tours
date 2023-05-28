@@ -3,6 +3,8 @@ import ItemListQuestions from '@/components/questionnaire/itemListQuestions.vue'
 import ItemWhereAndWhen from "@/components/questionnaire/ItemWhereAndWhen.vue";
 import ItemInterests from "@/components/questionnaire/ItemInterests.vue";
 import ItemKitchen from "@/components/questionnaire/ItemKitchen.vue";
+import useHistoryStore from "@/stores/history";
+import {TravelerType, TravelerWealth} from "@/interfaces";
 
 
 export class Story {
@@ -65,20 +67,30 @@ export class Story {
 
 // @ts-ignore
 const story = new Story("Куда и когда?", ItemListQuestions, 1, [
-    { title: 'Уже знаю направление и дату поездки', img: '1.png' },
-    { title: 'Знаю когда, но не выбрал направление', img: '2.png' },
-    { title: 'Определился с направлением, но не выбрал дату', img: '3.png' }
+    { title: 'Уже знаю направление и дату поездки', img: '1.png', answer: 0 },
+    { title: 'Знаю когда, но не выбрал направление', img: '2.png', answer: 1 },
+    { title: 'Определился с направлением, но не выбрал дату', img: '3.png', answer: 2  }
 ])
+// @ts-ignore
+const storyA = story.addPath(new Story("Куда и когда?", ItemWhereAndWhen, 2, {
+    type: 1
+}))
 
-const storyA = story.addPath(new Story("Куда и когда?", ItemWhereAndWhen, 2))
-const storyB = story.addPath(new Story("Куда и когда?", ItemWhereAndWhen, 2))
-const storyC = story.addPath(new Story("Куда и когда?", ItemWhereAndWhen, 2))
+// @ts-ignore
+const storyB = story.addPath(new Story("Куда и когда?", ItemWhereAndWhen, 2, {
+    type: 2
+}))
+
+// @ts-ignore
+const storyC = story.addPath(new Story("Куда и когда?", ItemWhereAndWhen, 2, {
+    type: 3
+}))
 
 // @ts-ignore
 const storyNext = new Story("Мне подойдет", ItemListQuestions, 3, [
-    { title: 'Экономичное путешествие(ценю простоту и уют)', img: '4.png' },
-    { title: 'Умеренные условия (качественно и комфортно)', img: '5.png' },
-    { title: 'Высокий уровень (насладиться роскошью)', img: '6.png' }
+    { title: 'Экономичное путешествие(ценю простоту и уют)', img: '4.png', type: 'TravelerWealth', answer: TravelerWealth.econom },
+    { title: 'Умеренные условия (качественно и комфортно)', img: '5.png', type: 'TravelerWealth', answer: TravelerWealth.medium },
+    { title: 'Высокий уровень (насладиться роскошью)', img: '6.png', type: 'TravelerWealth', answer: TravelerWealth.vip }
 ])
 
 storyNext
@@ -87,8 +99,8 @@ storyNext
 
 // @ts-ignore
 const plans = new Story("В путешествии", ItemListQuestions, 2, [
-    { title: 'Поспешу увидеть главные достопримечательности', img: '7.png' },
-    { title: 'Постараюсь найти то, что скрыто от глаз', img: '8.png' },
+    { title: 'Поспешу увидеть главные достопримечательности', img: '7.png', type: 'TravelerType', answer: TravelerType.popular },
+    { title: 'Постараюсь найти то, что скрыто от глаз', img: '8.png', type: 'TravelerType', answer: TravelerType.advanced },
 ])
 
 storyA.addPath(plans).addPath(storyNext)

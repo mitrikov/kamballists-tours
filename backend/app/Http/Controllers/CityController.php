@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 class CityController extends Controller
 {
     public function get(Request $req) {
+        return response()->json(City::where('_id', '!=', '0')->get(), 200);
+
         $postsPerPage = 20;
         $result = City::where('_id', '!=', '0');
 

@@ -19,7 +19,7 @@
     <div class="row">
       <div class="col2"></div>
       <div class="col2">
-        <ItemButton @click="historyStore.nextStep()">Далее</ItemButton>
+        <ItemButton @click="historyStore.next()">Далее</ItemButton>
       </div>
     </div>
   </div>

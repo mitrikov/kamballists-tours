@@ -7,14 +7,34 @@
 
 <script lang="ts" setup>
 import {ref} from "vue"
+import useHistoryStore from "@/stores/history";
+import {TravelerType} from "@/interfaces";
 
 
 const props = defineProps<{
   question: Object
 }>()
+const historyStore = useHistoryStore()
 const element = ref()
+
+console.log(props.question)
 function selectItem() {
-  element.value.classList.toggle('active')
+  //element.value.classList.toggle('active')
+
+
+  console.log(historyStore.getHistory().getPaths())
+  if(typeof props.question.answer == 'number'){
+    historyStore.nextStep = historyStore.getHistory().getPaths()[props.question.answer]
+  } else if(props.question.type == 'TravelerType') {
+    historyStore.answer.traveler_type = props.question.answer
+  } else if(props.question.type == 'TravelerWealth') {
+    historyStore.answer.traveler_wealth = props.question.answer
+  }
+
+
+  if(historyStore.getHistory().getPaths()[0])
+    historyStore.nextStep = historyStore.getHistory().getPaths()[0]
+
 }
 
 </script>
