@@ -13,6 +13,10 @@ export interface IEvent {
     }
 }
 
+export interface ICity {
+    title: String
+}
+
 export enum TravelerType {
     popular = "popular",
     advanced = "advanced"

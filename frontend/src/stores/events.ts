@@ -1,5 +1,5 @@
 import {defineStore} from "pinia"
-import {Ref, ref} from "vue";
+import {type Ref, ref} from "vue";
 import {server} from "@/helpers";
 
 const useEventsStore = defineStore('events', () => {

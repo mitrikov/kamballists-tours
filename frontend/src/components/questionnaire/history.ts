@@ -1,5 +1,8 @@
 import { type Component } from "vue";
 import ItemListQuestions from '@/components/questionnaire/itemListQuestions.vue'
+import ItemWhereAndWhen from "@/components/questionnaire/ItemWhereAndWhen.vue";
+import ItemInterests from "@/components/questionnaire/ItemInterests.vue";
+import ItemKitchen from "@/components/questionnaire/ItemKitchen.vue";
 
 
 export class Story {
@@ -9,7 +12,7 @@ export class Story {
     private paths: Array<Story>
     private step: Number | null
 
-    constructor(title: String, component = null, step = null) {
+    constructor(title: String, component: Component | null = null, step: Number | null = null) {
         this.title = title
         this.component = component
         this.parent = null
@@ -54,14 +57,19 @@ export class Story {
     }
 }
 
-const story = new Story("Вопрос 1", ItemListQuestions, 1)
-const storyA = story.addPath(new Story("path A", null, 2))
-const storyB = story.addPath(new Story("path B", null, 2))
-const storyC = story.addPath(new Story("path C", null, 2))
-const storyNext = new Story("next")
+const story = new Story("Куда и когда?", ItemListQuestions, 1)
+const storyA = story.addPath(new Story("Куда и когда?", ItemWhereAndWhen, 2))
+const storyB = story.addPath(new Story("Куда и когда?", ItemWhereAndWhen, 2))
+const storyC = story.addPath(new Story("Куда и когда?", ItemWhereAndWhen, 2))
+const storyNext = new Story("Мне подойдет", ItemListQuestions, 3)
+storyNext
+    .addPath(new Story("Интересы", ItemInterests, 4))
+    .addPath(new Story("Кухня", ItemKitchen, 5))
+const plans = new Story("В путешествии", ItemListQuestions, 2)
 
-storyA.addPath(storyNext)
-storyB.addPath(storyNext)
+storyA.addPath(plans).addPath(storyNext)
+storyB.addPath(plans).addPath(storyNext)
 storyC.addPath(storyNext)
+
 
 export default story

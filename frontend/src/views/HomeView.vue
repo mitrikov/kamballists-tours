@@ -8,7 +8,6 @@ const excursionsStore = useEventsStore()
 
 onMounted(async () => {
   excursionsStore.events = (await excursionsStore.fetchEvents()).data
-  console.log(excursionsStore.events)
 })
 
 </script>

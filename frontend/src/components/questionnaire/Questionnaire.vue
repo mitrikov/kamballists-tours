@@ -27,10 +27,7 @@
 
 <script lang="ts" setup>
 import useHistoryStore from "@/stores/history"
-
-
 const historyStore = useHistoryStore()
-
 
 
 </script>

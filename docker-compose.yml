@@ -35,7 +35,9 @@ services:
         depends_on:
             - tours-mongo
         volumes:
-            - ./backend/.env.production:/var/www/backend/.env
+            - ./backend/app/:/var/www/backend/app
+            #- ./backend/.env.production:/var/www/backend/.env
+            - ./backend/.env:/var/www/backend/.env
         networks:
             - tours-network
 

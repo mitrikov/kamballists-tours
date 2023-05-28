@@ -10,7 +10,7 @@ class EventController extends Controller
 {
    public function get(Request $req) {
        $postsPerPage = 20;
-       $result = Event::get();
+       $result = Event::where('_id', '!=', '0');
 
        return response()->json($result->paginate($postsPerPage), 200);
    }
