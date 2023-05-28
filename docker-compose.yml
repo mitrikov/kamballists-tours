@@ -22,7 +22,7 @@ services:
 
     #PHP Laravel Service
     tours-backend:
-        image: tours-backend
+        image: vokirtim/tours-backend
         build:
             context: .
             dockerfile: ./backend/Dockerfile
@@ -44,7 +44,6 @@ services:
     #mongo
     tours-mongo:
         container_name: tours-mongo
-        #:4.4.6
         image: mongo
         restart: always
         volumes:
@@ -52,11 +51,24 @@ services:
           - ./db/mongo-volume:/data/db
         ports:
             - '27017:27017'
-            - '27018:27017'
-        # expose:
-        #   - '27017'
+        expose:
+          - '27017'
         env_file:
           - ./db/.env.production
+        networks:
+            - tours-network
+
+    tours-frontend:
+        container_name: tours-frontend
+        image: vokirtim/tours-frontend
+        build:
+          context: ./frontend
+          dockerfile: ./Dockerfile
+        volumes:
+          - /node_modules
+        restart: unless-stopped
+        env_file:
+          - ./frontend/.env.production
         networks:
             - tours-network
 
@@ -70,30 +82,6 @@ services:
             /mongo-seed/import.sh
         networks:
             - tours-network
-
-    tours-frontend:
-        container_name: tours-frontend
-        image: tours-frontend
-        build:
-          context: ./frontend
-          dockerfile: ./Dockerfile
-        volumes:
-          - /node_modules
-        restart: unless-stopped
-        env_file:
-          - ./frontend/.env.production
-        networks:
-            - tours-network
-    
-    #tours-ml:
-    #    container_name: tours-ml
-    #    build:
-    #        context: ./ml
-    #        dockerfile: ./Dockerfile
-    #    restart: unless-stopped
-    #    networks:
-    #        - tours-network
-#Docker Networks
 networks:
     tours-network:
         driver: bridge
