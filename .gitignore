@@ -1,3 +1,4 @@
 ﻿frontend/package-lock.json
 db/mongo-volume/
 .idea
+db/mongo-volume

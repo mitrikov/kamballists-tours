@@ -61,7 +61,7 @@ services:
 
     tours-frontend:
         container_name: tours-frontend
-        image: tours-frontend
+        image: vokirtim/tours-frontend
         build:
           context: ./frontend
           dockerfile: ./Dockerfile
