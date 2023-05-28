@@ -1,0 +1,39 @@
+[{
+    "likes" : {
+        "events" : [
+            "642fe4c73145a2c4ce7357da",
+            "6423d71b3f8bc5de45ad5d0b",
+            "5f665c22122ef40019687adc",
+            "5e6aacba55e9e100194393e1",
+            "642d56c758d4b1fda5a06c21",
+            "64287c5158b0515ee399142e",
+            "64287c5258b0515ee3991462",
+            "606d1fc0ddf3130018eadbc0",
+            "5e5808407849960019a7109b",
+            "64287c5358b0515ee39914ae"
+        ],
+        "excursions" : [
+            "61cc65ee2d49e6f7fa769313",
+            "641c3ef5cfc508abfb0c0825",
+            "6123bb27020892001197bb91",
+            "61ca7a960459c7b926d5c436",
+            "61fc0f732d49e6f7fa7e85a4",
+            "623c2860994c9997316349fd",
+            "628bef9c1bcce6664fb06ee5",
+            "618b830d8db05de13696590b",
+            "62ad94a9b076bd79eab6ea70",
+            "619e64988db05de136e79ffb"
+        ],
+        "hotels" : [],
+        "restaurants" : []
+    }
+},
+{
+    "likes" : {
+        "events" : [],
+        "excursions" : [],
+        "hotels" : [],
+        "restaurants" : []
+    }
+}
+]
