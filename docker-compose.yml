@@ -22,7 +22,7 @@ services:
 
     #PHP Laravel Service
     tours-backend:
-        image: tours-backend
+        image: vokirtim/tours-backend
         build:
             context: .
             dockerfile: ./backend/Dockerfile
@@ -44,7 +44,6 @@ services:
     #mongo
     tours-mongo:
         container_name: tours-mongo
-        #:4.4.6
         image: mongo
         restart: always
         volumes:
@@ -72,26 +71,17 @@ services:
           - ./frontend/.env.production
         networks:
             - tours-network
-    #mongo-express:
-    #    #image: mongo-express
-    #    image: mongo-express:0.49.0
-    #    restart: always
-    #    ports:
-    #    - 8081:8081
-    #    depends_on:
-    #        - mongo
-    #    environment:
-    #        ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-    #        ME_CONFIG_MONGODB_ADMINPASSWORD: admin
-    #        ME_CONFIG_MONGODB_ENABLE_ADMIN: false
-    #        ME_CONFIG_MONGODB_AUTH_USERNAME: admin
-    #        ME_CONFIG_MONGODB_AUTH_PASSWORD: admin
-    #        ME_CONFIG_BASICAUTH_USERNAME: admin
-    #        ME_CONFIG_BASICAUTH_PASSWORD: admin
-    #        ME_CONFIG_MONGODB_URL: "mongodb://admin:admin@mongo:27017/"
-    #    networks:
-    #        - tours-network
-#Docker Networks
+
+    tours-mongo-seed:
+        image: mongo
+        links:
+            - tours-mongo
+        volumes:
+            - ./db/mongo-seed:/mongo-seed
+        command:
+            /mongo-seed/import.sh
+        networks:
+            - tours-network
 networks:
     tours-network:
         driver: bridge
