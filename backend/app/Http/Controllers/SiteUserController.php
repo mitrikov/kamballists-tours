@@ -17,7 +17,11 @@ class SiteUserController extends Controller
     }
 
     public function like(Request $request) {
-        return response()->json([$request], 200);
+
+        $user = User::find($request->user_id);
+        $user->likes->push('events', $request->event_id);
+        $user->save();
+        return response()->json([$user], 200);
         //$result = Event::find($id);
         //
         //if(is_null($result)) {

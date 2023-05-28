@@ -17,6 +17,7 @@ const useEventsStore = defineStore('events', () => {
     }
 
     const like = async(user_id, event) => {
+        console.log(event._id)
         await server.get(`like`, {
             user_id: user_id,
             event_id: event._id,
