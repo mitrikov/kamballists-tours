@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\SiteUserController;
 use Illuminate\Support\Facades\Route;
-
 use \App\Http\Controllers\EventController;
 use \App\Http\Controllers\ExcursionController;
 use \App\Http\Controllers\HotelController;
@@ -25,9 +24,12 @@ use \App\Http\Controllers\TrackController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+Route::get('new-user', [SiteUserController::class, 'newUser']);
+Route::get('like', [SiteUserController::class, 'like']);
 
 // Места и события
 Route::get('events', [EventController::class, 'get']);
