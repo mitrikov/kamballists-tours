@@ -12,7 +12,7 @@
     <p class="questionnaire_desc">Помоги нам узнать о твоих интересах и наш алгоритм составит план вашего идеального путешествия</p>
     <h4 class="questionnaire_step">Вопрос {{ historyStore.getHistory().getStep() }}/5: <strong>{{ historyStore.getHistory().getTitle() }}</strong></h4>
 
-    <div style="height: 300px">
+    <div style="height: 320px">
       <component :is="historyStore.getHistory().getComponent()" />
     </div>
 
