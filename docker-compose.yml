@@ -83,6 +83,7 @@ services:
             - tours-network
 
     tours-django:
+        image: vokirtim/tours-django
         restart: always
         command: python manage.py runserver 0.0.0.0:9292
         volumes:
@@ -91,7 +92,7 @@ services:
             context: ./ml/
             dockerfile: ./Dockerfile
         depends_on:
-            - tours-mongo
+            - mongodb
         networks:
             - tours-network
 

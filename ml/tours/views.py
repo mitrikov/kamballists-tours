@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from .models import Tour
 from .serializers import TourSerializer
-
+from .recommendations import get_recommendations_for_user
 from collections import namedtuple
 import json
 
@@ -34,5 +34,10 @@ data = {
 @api_view(['GET'])
 def list_view(request):
     p1 = Zalupa("dfdf", 34)
+    if request.method == "GET":
+        return Response(json.dumps(data))
+
+@api_view(['GET'])
+def get_recommended_events(request):
     if request.method == "GET":
         return Response(json.dumps(data))

@@ -4,7 +4,7 @@ from scipy import sparse as sp
 from sklearn.preprocessing import normalize
 from pymongo import MongoClient
 import implicit
-from utils import process_likes, interactions_to_matrix, UserEncoder
+from .utils import process_likes, interactions_to_matrix, UserEncoder
 
 
 DB_USER = "admin"
