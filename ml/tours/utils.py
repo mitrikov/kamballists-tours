@@ -7,9 +7,9 @@ def process_likes(interactions_data):
     result = []
 
     for item in interactions_data:
-        if hasattr(item, 'likes'): 
-            for like in item['likes']:
-                result.append([item["_id"], like, 1])
+        # if hasattr(item, 'likes'): 
+        for like in item['likes']:
+            result.append([item["_id"], like, 1])
 
     return result
 
@@ -52,10 +52,10 @@ def interactions_to_matrix(interactions_data):
 
     for item in interactions_data:
         cols.append(item["_id"])
-        if hasattr(item, 'likes'):
-            for like in item['likes']:
-                rows.append(like)
-                result.append([item["_id"], like, 1])
+        # if hasattr(item, 'likes'):
+        for like in item['likes']:
+            rows.append(like)
+            result.append([item["_id"], like, 1])
 
     return sp.coo_matrix(1, (np.array(rows), np.array(cols)))
 
