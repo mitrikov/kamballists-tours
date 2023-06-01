@@ -39,20 +39,22 @@ import {onMounted} from "vue";
 const props = defineProps<{
   event: Object
 }>()
+
 const excursionsStore = useEventsStore()
 const userStore = useUserStore()
 
 onMounted(async () => {
-  userStore.user_id = await userStore.init()
+
 })
 
 function like(){
-  excursionsStore.like(userStore.user_id, props.event)
+  userStore.like(userStore.user_id, props.event)
 }
 </script>
 
 <style lang="sass" scoped>
 .card
+  height: 100%
   padding: 2px
   border: 2px solid var(--color-background-accent)
   border-radius: 24px

@@ -15,7 +15,6 @@ const kitchen = [
 const list = ref(new Set())
 const historyStore = useHistoryStore()
 function add(value){
-  console.log(list.value)
   if(list.value.has(value)){
     list.value.delete(value)
   } else {

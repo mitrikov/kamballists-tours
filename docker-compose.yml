@@ -33,7 +33,7 @@ services:
             SERVICE_NAME: tours-backend
             SERVICE_TAGS: dev
         depends_on:
-            - tours-mongo
+            - mongodb
         volumes:
             - ./backend/app/:/var/www/backend/app
             #- ./backend/.env.production:/var/www/backend/.env
@@ -42,19 +42,17 @@ services:
             - tours-network
 
     #mongo
-    tours-mongo:
-        container_name: tours-mongo
+    mongodb:
+        container_name: mongodb
         image: mongo:4.4.6
         restart: always
         volumes:
           - ./db/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh  # mongo < 6
-          - ./db/mongo-volume:/data/db
         ports:
-            - '27017:27017'
-        expose:
-          - '27017'
-        env_file:
-          - ./db/.env.production
+            - '27018:27017'
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: admin
         networks:
             - tours-network
 
@@ -72,10 +70,10 @@ services:
         networks:
             - tours-network
 
-    tours-mongo-seed:
+    mongodb-seed:
         image: mongo
         links:
-            - tours-mongo
+            - mongodb
         volumes:
             - ./db/mongo-seed:/mongo-seed
         command:

@@ -13,21 +13,25 @@ class SiteUserController extends Controller
         $user = new User();
         $user->save();
         return response()->json($user->_id, 200);
+    }
 
+    public function likes(Request $request) {
+        $user = User::find($request->user_id);
+        return response()->json($user->likes, 200);
     }
 
     public function like(Request $request) {
-
         $user = User::find($request->user_id);
-        $user->likes->push('events', $request->event_id);
+        $event_id = $request->event_id;
+
+        $likes = $user->likes ?? [];
+        if (!in_array($event_id, $likes)) {
+            $likes[] = $event_id;
+        }
+
+        $user->likes = $likes;
         $user->save();
-        return response()->json([$user], 200);
-        //$result = Event::find($id);
-        //
-        //if(is_null($result)) {
-        //    return Errors::notFound();
-        //} else {
-        //    return response()->json($result, 200);
-        //}
+
+        return response()->json($user, 200);
     }
 }

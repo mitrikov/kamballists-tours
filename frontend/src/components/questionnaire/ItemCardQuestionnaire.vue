@@ -17,12 +17,10 @@ const props = defineProps<{
 const historyStore = useHistoryStore()
 const element = ref()
 
-console.log(props.question)
 function selectItem() {
   //element.value.classList.toggle('active')
 
 
-  console.log(historyStore.getHistory().getPaths())
   if(typeof props.question.answer == 'number'){
     historyStore.nextStep = historyStore.getHistory().getPaths()[props.question.answer]
   } else if(props.question.type == 'TravelerType') {

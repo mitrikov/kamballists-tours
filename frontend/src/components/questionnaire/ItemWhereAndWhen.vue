@@ -19,8 +19,6 @@ function search(q){
 }
 
 function allowNextStep(){
-  console.log(storyStore.getHistory().getPaths())
-  console.log(storyStore.getHistory().getPaths()[0])
   storyStore.nextStep = storyStore.getHistory().getPaths()[0]
   if(storyStore.stage.data.type == 2){
     if(storyStore.answer.city && storyStore.answer.fromDate){
