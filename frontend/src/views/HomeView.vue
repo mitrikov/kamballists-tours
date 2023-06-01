@@ -19,7 +19,10 @@ onMounted(async () => {
   userStore.user_id = await userStore.init()
   userStore.likes = await userStore.getListLikes()
 
-  const recomendEvents = await axios.get(import.meta.env.VITE_DJANGO_URL + 'tours/recommended/' + userStore.user_id)
+  let recomendEvents = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + 'tours/recommended/' + userStore.user_id)).data)
+  recomendEvents = (await server.get('', {
+    ids: recomendEvents
+  }))
   console.log(recomendEvents)
 
   eventsStore.events.map(e => {
