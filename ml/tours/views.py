@@ -8,18 +8,16 @@ from .recommendations import get_recommendations_for_user
 from collections import namedtuple
 import json
 
+
+
 nt = namedtuple("object", ["model", "serializers"])
 pattern = {
     "tours": nt(Tour, TourSerializer)
 }
 
 
-class Zalupa:
-    def __init__(self, a, b):
-        self.a = a
-        self.b = b
 
-data2 = Tour.objects.all()
+
 
 data = {
     "global": {
@@ -33,11 +31,12 @@ data = {
 
 @api_view(['GET'])
 def list_view(request):
-    p1 = Zalupa("dfdf", 34)
+
     if request.method == "GET":
         return Response(json.dumps(data))
 
 @api_view(['GET'])
 def get_recommended_events(request, oid):
     if request.method == "GET":
-        return Response(get_recommendations_for_user(oid))
+        recommended_items = get_recommendations_for_user(oid)
+        return Response(json.dumps(recommended_items))
