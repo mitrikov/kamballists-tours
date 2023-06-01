@@ -16,12 +16,8 @@ onMounted(async () => {
   eventsStore.events = eventsStore.eventsPag.data
   userStore.user_id = await userStore.init()
   userStore.likes = await userStore.getListLikes()
-  console.log("userStore.likes")
-  console.log(userStore.likes)
-  console.log(eventsStore.events)
 
   eventsStore.events.map(e => {
-    console.log(userStore.checkForExistence(e._id))
     if(userStore.checkForExistence(e._id)){
       e.isLiked = true
     } else {
@@ -36,6 +32,13 @@ onMounted(async () => {
   <main>
     <Questionnaire />
     <div class="container">
+      <h1>Рекомендации</h1>
+      <div class="row">
+          <div class="col2" v-for="event in eventsStore.events">
+            <ItemCardOrder :event="event" />
+          </div>
+      </div>
+
       <div class="row" v-if="eventsStore.events.length != 0">
         <div class="col2" v-for="event in eventsStore.events">
           <ItemCardOrder :event="event" />
