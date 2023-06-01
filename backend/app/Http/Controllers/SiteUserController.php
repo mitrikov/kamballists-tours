@@ -6,6 +6,8 @@ use App\Http\Errors;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Http\Request;
+use stdClass;
+
 
 class SiteUserController extends Controller
 {
@@ -23,10 +25,24 @@ class SiteUserController extends Controller
     public function like(Request $request) {
         $user = User::find($request->user_id);
         $event_id = $request->event_id;
+        $likes = $user->likes;
+        if($likes == null){
+            $likes = [
+                'events' => [],
+                'excursions' => [],
+                'hotels' => [],
+                'restaurants' => [],
+            ];
 
-        $likes = $user->likes ?? [];
-        if (!in_array($event_id, $likes)) {
-            $likes[] = $event_id;
+            $user->likes = $likes;
+            $user->save();
+        }
+
+        $likes = $user->likes;
+
+
+        if (!in_array($event_id, $likes['events'])) {
+            $likes['events'][] = $event_id;
         }
 
         $user->likes = $likes;

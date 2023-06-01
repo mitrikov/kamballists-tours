@@ -28,7 +28,11 @@ use \App\Http\Controllers\TrackController;
 //    return $request->user();
 //});
 
-Route::get('/user/likes', [SiteUserController::class, 'likes']);
+Route::prefix('user')->group(function (){
+    Route::get('/likes', [SiteUserController::class, 'likes']);
+});
+
+
 Route::post('new-user', [SiteUserController::class, 'newUser']);
 Route::get('like', [SiteUserController::class, 'like']);
 

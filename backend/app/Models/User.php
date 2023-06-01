@@ -12,8 +12,16 @@ class User extends Model
     protected $collection = 'users';
     protected $primaryKey = '_id';
 
+    protected $fillable = [
+        'likes',
+    ];
+
     protected $casts = [
         'likes' => 'array',
+        'events' => 'array',
+        'excursions' => 'array',
+        'hotels' => 'array',
+        'restaurants' => 'array',
     ];
 
 }
