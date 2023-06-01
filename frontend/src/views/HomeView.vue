@@ -13,6 +13,7 @@ onMounted(async () => {
   excursionsStore.events = excursionsStore.eventsPag.data
   userStore.user_id = await userStore.init()
   userStore.likes = await userStore.getListLikes()
+  console.log("userStore.likes")
   console.log(userStore.likes)
 })
 

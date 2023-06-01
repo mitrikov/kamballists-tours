@@ -10,7 +10,7 @@ services:
         restart: unless-stopped
         tty: true
         volumes:
-            - ./backend:/var/www/backend:ro,cached
+            - ./backend:/var/www/backend:ro,default
             - ./docker/nginx/app.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - tours-backend
@@ -36,6 +36,7 @@ services:
             - mongodb
         volumes:
             - ./backend/app/:/var/www/backend/app
+            - ./backend/routes/:/var/www/backend/routes
             #- ./backend/.env.production:/var/www/backend/.env
             - ./backend/.env:/var/www/backend/.env
         networks:
@@ -44,7 +45,7 @@ services:
     #mongo
     mongodb:
         container_name: mongodb
-        image: mongo:4.4.6
+        image: mongo
         restart: always
         volumes:
           - ./db/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh  # mongo < 6

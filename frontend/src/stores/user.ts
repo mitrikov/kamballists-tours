@@ -17,7 +17,6 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const getListLikes = async () => {
-    const asdasd = user_id
     const likes = await server.get('user/likes', {
       user_id: user_id.value
     })

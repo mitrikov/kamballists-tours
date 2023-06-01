@@ -33,7 +33,7 @@ Route::prefix('user')->group(function (){
 });
 
 
-Route::post('new-user', [SiteUserController::class, 'newUser']);
+Route::get('new-user', [SiteUserController::class, 'newUser']);
 Route::get('like', [SiteUserController::class, 'like']);
 
 // Места и события
