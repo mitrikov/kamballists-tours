@@ -2,7 +2,7 @@
 import Questionnaire from '@/components/questionnaire/Questionnaire.vue'
 import ItemCardOrder from '@/components/ItemCardOrder.vue'
 import useEventsStore from "@/stores/events";
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import {useUserStore} from "@/stores/user";
 import {server} from "@/helpers";
 import axios from "axios";
@@ -11,7 +11,7 @@ import axios from "axios";
 const eventsStore = useEventsStore()
 const userStore = useUserStore()
 
-
+let recomendEvents = ref()
 
 onMounted(async () => {
   eventsStore.eventsPag = await eventsStore.fetchEvents()
@@ -19,11 +19,12 @@ onMounted(async () => {
   userStore.user_id = await userStore.init()
   userStore.likes = await userStore.getListLikes()
 
-  let recomendEvents = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + 'tours/recommended/' + userStore.user_id)).data)
-  recomendEvents = (await server.get('', {
-    ids: recomendEvents
+ let asdfafds = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + 'tours/recommended/' + userStore.user_id)).data)
+  asdfafds = (await server.get('events', {
+    ids: asdfafds
   }))
-  console.log(recomendEvents)
+  recomendEvents.value = asdfafds
+  console.log(asdfafds)
 
   eventsStore.events.map(e => {
     if(userStore.checkForExistence(e._id)){
