@@ -82,6 +82,20 @@ services:
             /mongo-seed/import.sh
         networks:
             - tours-network
+
+    tours-django:
+        restart: always
+        command: python manage.py runserver 0.0.0.0:9292
+        volumes:
+            - ./ml:/code
+        build:
+            context: ./ml/
+            dockerfile: ./Dockerfile
+        depends_on:
+            - tours-mongo
+        networks:
+            - tours-network
+
 networks:
     tours-network:
         driver: bridge
