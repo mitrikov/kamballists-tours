@@ -15,12 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import list_view
+from .views import list_view, get_recommended_events
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('tours/', list_view),
-    path('tours/recommended/<str:oid>', list_view)
+    path('tours/recommended/<str:oid>', get_recommended_events)
 ]
 
 

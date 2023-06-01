@@ -38,6 +38,6 @@ def list_view(request):
         return Response(json.dumps(data))
 
 @api_view(['GET'])
-def get_recommended_events(request):
+def get_recommended_events(request, oid):
     if request.method == "GET":
-        return Response(json.dumps(data))
+        return Response(get_recommendations_for_user(oid))

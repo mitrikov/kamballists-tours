@@ -9,7 +9,7 @@ from .utils import process_likes, interactions_to_matrix, UserEncoder
 
 DB_USER = "admin"
 DB_PASSWORD = "admin"
-DB_HOST = "tours-mongo" # "localhost" 
+DB_HOST = "mongodb" # "localhost" 
 DB_PORT = "27017"
 DB_NAME = "tours"
 

@@ -93,6 +93,8 @@ services:
             dockerfile: ./Dockerfile
         depends_on:
             - mongodb
+        ports:
+            - '9292:9292'
         networks:
             - tours-network
 
