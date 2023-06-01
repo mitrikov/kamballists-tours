@@ -17,11 +17,7 @@ class User extends Model
     ];
 
     protected $casts = [
-        'likes' => 'array',
-        'events' => 'array',
-        'excursions' => 'array',
-        'hotels' => 'array',
-        'restaurants' => 'array',
+
     ];
 
 }
