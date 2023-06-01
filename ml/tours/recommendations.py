@@ -28,6 +28,8 @@ def get_recommendations_for_user(user_oid):
 
     # Преобразование в нужный нам формат для датафрейма
     interactions_data_events = process_likes(interactions_data_events_raw)
+    if len(interactions_data_events) == 0:
+        return
 
     # Генерация датафрейма
     interactions_events_df = pd.DataFrame(data=interactions_data_events, columns=['user_id', 'event_id', 'like'], )
