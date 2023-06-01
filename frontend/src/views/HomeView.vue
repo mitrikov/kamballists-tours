@@ -4,6 +4,8 @@ import ItemCardOrder from '@/components/ItemCardOrder.vue'
 import useEventsStore from "@/stores/events";
 import {onMounted} from "vue";
 import {useUserStore} from "@/stores/user";
+import {server} from "@/helpers";
+import axios from "axios";
 
 
 const eventsStore = useEventsStore()
@@ -17,6 +19,9 @@ onMounted(async () => {
   userStore.user_id = await userStore.init()
   userStore.likes = await userStore.getListLikes()
 
+  const recomendEvents = await axios.get(import.meta.env.VITE_DJANGO_URL + 'tours/recommended/' + userStore.user_id)
+  console.log(recomendEvents)
+
   eventsStore.events.map(e => {
     if(userStore.checkForExistence(e._id)){
       e.isLiked = true
@@ -27,6 +32,8 @@ onMounted(async () => {
   })
 })
 
+
+
 </script>
 <template>
   <main>
@@ -34,11 +41,11 @@ onMounted(async () => {
     <div class="container">
       <h1>Рекомендации</h1>
       <div class="row">
-          <div class="col2" v-for="event in eventsStore.events">
-            <ItemCardOrder :event="event" />
+          <div class="col2" v-for="rec in recomendEvents">
+            <ItemCardOrder :event="rec" />
           </div>
       </div>
-
+      <h1>Другие события</h1>
       <div class="row" v-if="eventsStore.events.length != 0">
         <div class="col2" v-for="event in eventsStore.events">
           <ItemCardOrder :event="event" />
