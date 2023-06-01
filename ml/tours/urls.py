@@ -19,7 +19,8 @@ from .views import list_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('tours/', list_view)
+    path('tours/', list_view),
+    path('tours/recommended/<str:oid>', list_view)
 ]
 
 
