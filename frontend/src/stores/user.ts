@@ -24,13 +24,16 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const like = async(user_id, event) => {
-    console.log(user_id)
-    console.log(event)
     await server.get(`like`, {
       user_id: user_id,
       event_id: event._id,
     })
   }
 
-  return { user_id, likes, init, getListLikes, like }
+  const checkForExistence = (id) => {
+    // @ts-ignore
+    return likes.value.events.find(e => id === e)
+  }
+
+  return { user_id, likes, init, getListLikes, like, checkForExistence }
 })
