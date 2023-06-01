@@ -9,15 +9,17 @@ use Illuminate\Http\Request;
 class EventController extends Controller
 {
    public function get(Request $req) {
-        $postsPerPage = 20;
+        $postsPerPage = 100;
         $result = Event::where('_id', '!=', '0');
-
+        
+        $req->page = 30;
+        
         if($req->has('ids')) {
             $ids = explode(',', $req->get('ids'));
             return $this->getByIds($ids);
         }
 
-       return response()->json($result->paginate($postsPerPage), 200);
+       return response()->json($result->paginate($postsPerPage, ['*'], 'page', rand(1, 100)), 200);
    }
 
     public function getById($id) {

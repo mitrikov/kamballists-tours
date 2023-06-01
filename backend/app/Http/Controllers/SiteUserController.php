@@ -13,13 +13,19 @@ class SiteUserController extends Controller
 {
     public function newUser(Request $request) {
         $user = new User();
+        
         $user->save();
         return response()->json($user->_id, 200);
     }
 
     public function likes(Request $request) {
-        $user = User::find($request->user_id);
-        return response()->json($user->likes, 200);
+        $result = User::find($request->get('user_id'));
+        
+        if(is_null($result)) {
+            return Errors::notFound();
+        } else {
+            return response()->json($result->likes, 200);
+        }
     }
 
     public function like(Request $request) {

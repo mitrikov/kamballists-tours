@@ -7,7 +7,7 @@ def process_likes(interactions_data):
     result = []
 
     for item in interactions_data:
-        # if hasattr(item, 'likes'): 
+        #if hasattr(item, 'likes'): 
         for like in item['likes']:
             result.append([item["_id"], like, 1])
 

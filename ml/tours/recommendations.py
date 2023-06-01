@@ -9,7 +9,7 @@ from .utils import process_likes, interactions_to_matrix, UserEncoder
 
 DB_USER = "admin"
 DB_PASSWORD = "admin"
-DB_HOST = "mongodb" # "localhost" 
+DB_HOST = "192.168.1.98" #"mongodb" # "localhost" 
 DB_PORT = "27017"
 DB_NAME = "tours"
 
@@ -28,12 +28,13 @@ def get_recommendations_for_user(user_oid):
 
     # Преобразование в нужный нам формат для датафрейма
     interactions_data_events = process_likes(interactions_data_events_raw)
-    if len(interactions_data_events) == 0:
-        return
+    
+    #if len(interactions_data_events) == 0:
+    #    return
 
     # Генерация датафрейма
     interactions_events_df = pd.DataFrame(data=interactions_data_events, columns=['user_id', 'event_id', 'like'], )
-
+    #print(interactions_events_df)
     # Определение столбцов, рядов для матрицы данных
     rows, r_pos = np.unique(interactions_events_df.values[:, 0], return_inverse=True)  # Users
     cols, c_pos = np.unique(interactions_events_df.values[:, 1], return_inverse=True)  # Items
@@ -44,16 +45,17 @@ def get_recommendations_for_user(user_oid):
     sparse_matrix_t = sparse_matrix.transpose(copy=True).tocsr()
 
     # Факторизация матрицы ALS
-    model = implicit.als.AlternatingLeastSquares(factors=12, regularization=1.0, iterations=6)
+    model = implicit.als.AlternatingLeastSquares(factors=12, regularization=1.0, iterations=16)
     model.fit(sparse_matrix_t)
 
     # Выборка предметов, с которыми пользователь взаимодействовал
     user_liked_items = np.array(interactions_events_df.loc[interactions_events_df.user_id == user_oid])[:, 1]
-
+    user_idx = interactions_events_df.loc[interactions_events_df.user_id == user_oid].index[0]
+    print(user_idx)
     # Построение рекомендаций
-    recommends_raw = model.recommend(0, sparse_matrix_t[1], N=10, filter_already_liked_items=True, recalculate_user=True)
+    recommends_raw = model.recommend(0, sparse_matrix_t[70], N=10, filter_already_liked_items=True, recalculate_user=True)
     recommended_items_idx = np.unique(recommends_raw[0])
-
+    print(interactions_events_df)
     recommended_items = []
     for idx in recommended_items_idx:
         recommended_items.append(cols[idx])
