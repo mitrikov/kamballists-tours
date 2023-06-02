@@ -6,11 +6,14 @@ import {onMounted, ref} from "vue";
 import {useUserStore} from "@/stores/user";
 import {server} from "@/helpers";
 import axios from "axios";
+import PopUp from "@/components/ui/PopUp.vue";
+import useHistoryStore from "@/stores/history";
 
 
 const eventsStore = useEventsStore()
+const historyStore = useHistoryStore()
 const userStore = useUserStore()
-
+let isShowModal = ref(true)
 let recomendEvents = ref()
 
 onMounted(async () => {
@@ -18,13 +21,24 @@ onMounted(async () => {
   eventsStore.events = eventsStore.eventsPag.data
   userStore.user_id = await userStore.init()
   userStore.likes = await userStore.getListLikes()
+  console.log(112)
+  console.log(historyStore.getAnswers())
 
- let asdfafds = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id)).data)
-  asdfafds = (await server.get('events', {
-    ids: asdfafds
+  let listRecomend = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id, {
+    params: {
+      city: historyStore.getAnswers().city,
+      cuisines: historyStore.getAnswers().cuisines.join(','),
+      fromDate: historyStore.getAnswers().fromDate,
+      interests: historyStore.getAnswers().interests.join(','),
+      traveler_type: historyStore.getAnswers().traveler_type,
+      traveler_wealth: historyStore.getAnswers().traveler_wealth,
+    }
+  })).data)
+  listRecomend = (await server.get('events', {
+    ids: listRecomend
   }))
-  recomendEvents.value = asdfafds
-  console.log(asdfafds)
+  recomendEvents.value = listRecomend
+  console.log(listRecomend)
 
   eventsStore.events.map(e => {
     if(userStore.checkForExistence(e._id)){
@@ -35,13 +49,18 @@ onMounted(async () => {
     return e
   })
 })
-
-
-
 </script>
 <template>
   <main>
-    <Questionnaire />
+    <PopUp v-model="isShowModal">
+      <template #header>
+        Помогите нам подобрать для вас лучшие события!
+      </template>
+
+      <template #default>
+        <Questionnaire @finish="isShowModal = false" />
+      </template>
+    </PopUp>
     <div class="container">
       <h1 class="recommendations-title">Рекомендации <span>будут меняться в зависимости от лайков</span></h1>
       <div class="row recommendations-list">

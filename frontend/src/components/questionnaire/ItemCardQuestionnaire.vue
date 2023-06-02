@@ -20,10 +20,6 @@ const historyStore = useHistoryStore()
 const element = ref()
 
 function selectItem() {
-
-  // element.value.classList.toggle('active')
-  // emit("answer")
-
   if(typeof props.question.answer == 'number'){
     historyStore.nextStep = historyStore.getHistory().getPaths()[props.question.answer]
   } else if(props.question.type == 'TravelerType') {
@@ -31,9 +27,9 @@ function selectItem() {
   } else if(props.question.type == 'TravelerWealth') {
     historyStore.answer.traveler_wealth = props.question.answer
   }
-
-
-  if(historyStore.getHistory().getPaths()[0])
+  if(typeof props.question.answer == 'number'){
+    historyStore.nextStep = historyStore.getHistory().getPaths()[props.question.answer]
+  } else if(historyStore.getHistory().getPaths()[0])
     historyStore.nextStep = historyStore.getHistory().getPaths()[0]
 
 }

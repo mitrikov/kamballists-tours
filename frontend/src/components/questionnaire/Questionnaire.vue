@@ -21,7 +21,7 @@
 
       </div>
       <div class="col2">
-        <ItemButton @click="historyStore.next()">Далее</ItemButton>
+        <ItemButton @click="next">Далее</ItemButton>
       </div>
     </div>
   </div>
@@ -29,7 +29,46 @@
 
 <script lang="ts" setup>
 import useHistoryStore from "@/stores/history"
+import axios from "axios"
+import {server} from "@/helpers"
+import {ref, watch} from "vue"
+import {useUserStore} from "@/stores/user"
 const historyStore = useHistoryStore()
+const userStore = useUserStore()
+let recomendEvents = ref()
+
+const emit = defineEmits(['finish'])
+
+async function next() {
+  if (historyStore.getNextStep() != null) {
+    historyStore.next()
+  } else if (historyStore.getHistory().getPaths().length == 0 && historyStore.getAnswers().interests.length > 0) {
+    console.log('finish!')
+    try {
+      await updateRecommendation()
+    } catch (e) { /* empty */ }
+    emit('finish')
+  }
+}
+
+async function updateRecommendation() {
+  let listRecomend = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id, {
+    params: {
+      city: historyStore.getAnswers().city,
+      cuisines: historyStore.getAnswers().cuisines.join(','),
+      fromDate: historyStore.getAnswers().fromDate,
+      interests: historyStore.getAnswers().interests.join(','),
+      traveler_type: historyStore.getAnswers().traveler_type,
+      traveler_wealth: historyStore.getAnswers().traveler_wealth,
+    }
+  })).data)
+  listRecomend = (await server.get('events', {
+    ids: listRecomend
+  }))
+  recomendEvents.value = listRecomend
+  console.log('update')
+  console.log(listRecomend)
+}
 
 
 </script>

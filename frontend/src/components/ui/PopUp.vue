@@ -78,9 +78,9 @@ body:has(.modal){
         margin: 1.75rem auto
     &-content
         width: fit-content
-        min-width: 320px
-        max-width: 1200px
-        background-color: #fff
+        width: 1320px
+        background-color: var(--color-background-default)
+        border-radius: 20px
         padding: 40px
         @media (max-width: 576px)
             padding: 10px

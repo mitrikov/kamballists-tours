@@ -1,6 +1,7 @@
 import axios from "axios";
 import {Cuisines, Interests, TravelerType, TravelerWealth} from "@/interfaces";
 import type {Ref} from "vue";
+import {ref} from "vue";
 
 export class Server {
     private static url : string | undefined = import.meta.env.VITE_BACKEND_URL
@@ -37,11 +38,20 @@ export class Server {
 export const server = new Server()
 
 export class Answer {
-    public traveler_type: TravelerType
-    public traveler_wealth: TravelerWealth
+    public traveler_type: TravelerType | null
+    public traveler_wealth: TravelerWealth | null
     public interests: Array<Interests>
     public cuisines: Array<Cuisines>
     public city: any = null
     public fromDate: Ref<Date | undefined> = null
+
+    constructor() {
+        this.traveler_type = null
+        this.traveler_wealth = null
+        this.interests = []
+        this.cuisines = []
+        this.city = []
+        this.fromDate = ref(new Date())
+    }
 }
 
