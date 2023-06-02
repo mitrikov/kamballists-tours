@@ -7,9 +7,11 @@ import {useUserStore} from "@/stores/user";
 import {server} from "@/helpers";
 import axios from "axios";
 import PopUp from "@/components/ui/PopUp.vue";
+import useHistoryStore from "@/stores/history";
 
 
 const eventsStore = useEventsStore()
+const historyStore = useHistoryStore()
 const userStore = useUserStore()
 let isShowModal = ref(true)
 let recomendEvents = ref()
@@ -19,8 +21,19 @@ onMounted(async () => {
   eventsStore.events = eventsStore.eventsPag.data
   userStore.user_id = await userStore.init()
   userStore.likes = await userStore.getListLikes()
+  console.log(112)
+  console.log(historyStore.getAnswers())
 
-  let listRecomend = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id)).data)
+  let listRecomend = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id, {
+    params: {
+      city: historyStore.getAnswers().city,
+      cuisines: historyStore.getAnswers().cuisines.join(','),
+      fromDate: historyStore.getAnswers().fromDate,
+      interests: historyStore.getAnswers().interests.join(','),
+      traveler_type: historyStore.getAnswers().traveler_type,
+      traveler_wealth: historyStore.getAnswers().traveler_wealth,
+    }
+  })).data)
   listRecomend = (await server.get('events', {
     ids: listRecomend
   }))
@@ -45,7 +58,7 @@ onMounted(async () => {
       </template>
 
       <template #default>
-        <Questionnaire />
+        <Questionnaire @finish="isShowModal = false" />
       </template>
     </PopUp>
     <div class="container">

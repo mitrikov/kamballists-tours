@@ -23,7 +23,7 @@ function add(value){
 
   historyStore.answer.cuisines = [...list.value]
 
-  if([...list.value].length > 1){
+  if([...list.value].length > 0){
     historyStore.nextStep = historyStore.getHistory().getPaths()[0]
   }
 }

@@ -22,6 +22,18 @@ const useHistoryStore = defineStore('history', {
             return () => {
                 return store.nextStep
             }
+        },
+
+        getAnswers(store){
+            return () => {
+                return store.answer
+            }
+        },
+
+        isFinish(store){
+            return () => {
+                return store.isFinish
+            }
         }
     },
 
