@@ -37,7 +37,6 @@ services:
         volumes:
             - ./backend/app/:/var/www/backend/app
             - ./backend/routes/:/var/www/backend/routes
-            #- ./backend/.env.production:/var/www/backend/.env
             - ./backend/.env:/var/www/backend/.env.production
         networks:
             - tours-network

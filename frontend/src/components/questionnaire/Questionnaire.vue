@@ -1,23 +1,25 @@
 <template>
   <div class="container">
     <div class="questionnaire_header">
-      <ItemButtonBack
-          v-if="historyStore.getHistory().getParent() || true"
-          @click="historyStore.selectParent()"
+      <ItemButtonBack v-if="historyStore.getHistory().getParent() || true" @click="historyStore.selectParent()"
           class="questionnaire_header-back">
-        назад
-      </ItemButtonBack>
+          &lt; - Предыдущий вопрос
+        </ItemButtonBack>
       <h2 class="questionnaire_header-title">Составим план идеальной поездки</h2>
     </div>
-    <p class="questionnaire_desc">Помоги нам узнать о твоих интересах и наш алгоритм составит план вашего идеального путешествия</p>
-    <h4 class="questionnaire_step">Вопрос {{ historyStore.getHistory().getStep() }}/5: <strong>{{ historyStore.getHistory().getTitle() }}</strong></h4>
+    <p class="questionnaire_desc">Помоги нам узнать о твоих интересах и наш алгоритм составит план вашего идеального
+      путешествия</p>
+    <h4 class="questionnaire_step">Вопрос {{ historyStore.getHistory().getStep() }}/5: <strong>{{
+      historyStore.getHistory().getTitle() }}</strong></h4>
 
     <div style="height: 320px">
       <component :is="historyStore.getHistory().getComponent()" />
     </div>
 
     <div class="row">
-      <div class="col2"></div>
+      <div class="col2">
+
+      </div>
       <div class="col2">
         <ItemButton @click="historyStore.next()">Далее</ItemButton>
       </div>

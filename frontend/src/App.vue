@@ -31,8 +31,16 @@ import { RouterLink, RouterView } from 'vue-router'
 .menu
   display: flex
   justify-content: space-between
+  margin-top: 1rem
+  margin-bottom: 4rem
   &-left__list
     display: flex
+    gap: 1rem
   &-right__list
     display: flex
+    gap: 1rem
+
+  a
+    color: #000
+    text-decoration: none
 </style>

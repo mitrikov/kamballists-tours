@@ -1,7 +1,7 @@
 <template>
   <ul class="row questionnaire_list" ref="list">
     <li class="col2"  v-for="item in storyStore.stage.data" >
-      <ItemCardQuestionnaire :question="item" @click="highlightSelected"></ItemCardQuestionnaire>
+      <ItemCardQuestionnaire :question="item" @click="highlightSelected" class="temp"></ItemCardQuestionnaire>
     </li>
   </ul>
 </template>
@@ -21,10 +21,9 @@ const highlightSelected = (e : Event) => {
   list.value?.querySelectorAll("div").forEach(item => {
     item.classList.remove("active")
   })
-
-  if(target === e.currentTarget) {
-    target.classList.add("active")
-  }
+  console.log(target)
+  target.closest(".temp").classList.add("active")
+  
 } 
 
 </script>

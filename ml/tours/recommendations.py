@@ -53,7 +53,7 @@ def get_recommendations_for_user(user_oid):
     user_idx = interactions_events_df.loc[interactions_events_df.user_id == user_oid].index[0]
     print(user_idx)
     # Построение рекомендаций
-    recommends_raw = model.recommend(0, sparse_matrix_t[70], N=10, filter_already_liked_items=True, recalculate_user=True)
+    recommends_raw = model.recommend(0, sparse_matrix_t[1], N=10, filter_already_liked_items=True, recalculate_user=True)
     recommended_items_idx = np.unique(recommends_raw[0])
     print(interactions_events_df)
     recommended_items = []

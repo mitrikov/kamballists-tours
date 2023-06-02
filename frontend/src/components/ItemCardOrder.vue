@@ -88,7 +88,7 @@ function like() {
       font-weight: bold
       font-size: 14px
       line-height: 18px
-      display: flex
+      word-wrap: break-word
       align-items: center
       color: var(--color-secondary)
       margin-bottom: 12px

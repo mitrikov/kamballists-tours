@@ -44,12 +44,13 @@ onMounted(async () => {
     <Questionnaire />
     <div class="container">
       <h1>Рекомендации</h1>
-      <div class="row">
+      <div class="row recommendations-list">
           <div class="col2" v-for="rec in recomendEvents">
             <ItemCardOrder :event="rec" />
           </div>
       </div>
-      <h1>Другие события</h1>
+
+      <h1>Все события</h1>
       <div class="row" v-if="eventsStore.events.length != 0">
         <div class="col2" v-for="event in eventsStore.events">
           <ItemCardOrder :event="event" />
@@ -61,4 +62,7 @@ onMounted(async () => {
 
 <style lang="sass" scoped>
 @import "@/assets/sass/helpers.sass"
+
+.recommendations-list
+  margin-bottom: 3rem
 </style>

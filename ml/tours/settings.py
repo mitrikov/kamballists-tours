@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGIN_REGEXES = [
 r"^http://\w+\.primertone\.com$",
+r"^http://localhost:*([0-9]+)?$"
 ]
 
 # Application definition

@@ -13,7 +13,9 @@ class SiteUserController extends Controller
 {
     public function newUser(Request $request) {
         $user = new User();
-        
+        $user->likes = (object) [
+          "events" => ['606d1fc0ddf3130018eadbc0'] // TODO: Это костыль! Нужно сделать проверку в Django
+        ];
         $user->save();
         return response()->json($user->_id, 200);
     }
@@ -31,8 +33,7 @@ class SiteUserController extends Controller
     public function like(Request $request) {
         $user = User::find($request->user_id);
         $event_id = $request->event_id;
-        $likes = $user->likes;
-        if($likes == null){
+        if(!isset($user->likes)){
             $likes = [
                 'events' => [],
                 'excursions' => [],

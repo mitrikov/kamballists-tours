@@ -21,8 +21,8 @@ const element = ref()
 
 function selectItem() {
 
-  element.value.classList.toggle('active')
-  emit("answer")
+  // element.value.classList.toggle('active')
+  // emit("answer")
 
   if(typeof props.question.answer == 'number'){
     historyStore.nextStep = historyStore.getHistory().getPaths()[props.question.answer]
