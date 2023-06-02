@@ -89,6 +89,7 @@ services:
         command: python manage.py runserver 0.0.0.0:9292
         volumes:
             - ./ml:/code
+            - ./ml/tours/.env:/code/.env
         build:
             context: ./ml/
             dockerfile: ./Dockerfile

@@ -5,20 +5,12 @@ from sklearn.preprocessing import normalize
 from pymongo import MongoClient
 import implicit
 from .utils import process_likes, interactions_to_matrix, UserEncoder
-
-
-DB_USER = "admin"
-DB_PASSWORD = "admin"
-DB_HOST = "192.168.1.98" #"mongodb" # "localhost" 
-DB_PORT = "27017"
-DB_NAME = "tours"
-
-DB_URI = "mongodb://{}:{}@{}:{}/?authFrom=admin".format(DB_USER, DB_PASSWORD, DB_HOST, DB_PORT)
+from django.conf import settings
 
 
 def get_recommendations_for_user(user_oid):
 
-    mongo_client = MongoClient(DB_URI)
+    mongo_client = MongoClient(settings.DB_URI)
     db = mongo_client.tours
 
     # user_oid = '647397f8c6af21d0b1fd6d5b'
