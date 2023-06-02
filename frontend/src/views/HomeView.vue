@@ -6,11 +6,12 @@ import {onMounted, ref} from "vue";
 import {useUserStore} from "@/stores/user";
 import {server} from "@/helpers";
 import axios from "axios";
+import PopUp from "@/components/ui/PopUp.vue";
 
 
 const eventsStore = useEventsStore()
 const userStore = useUserStore()
-
+let isShowModal = ref(true)
 let recomendEvents = ref()
 
 onMounted(async () => {
@@ -19,12 +20,12 @@ onMounted(async () => {
   userStore.user_id = await userStore.init()
   userStore.likes = await userStore.getListLikes()
 
- let asdfafds = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id)).data)
-  asdfafds = (await server.get('events', {
-    ids: asdfafds
+  let listRecomend = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id)).data)
+  listRecomend = (await server.get('events', {
+    ids: listRecomend
   }))
-  recomendEvents.value = asdfafds
-  console.log(asdfafds)
+  recomendEvents.value = listRecomend
+  console.log(listRecomend)
 
   eventsStore.events.map(e => {
     if(userStore.checkForExistence(e._id)){
@@ -35,13 +36,18 @@ onMounted(async () => {
     return e
   })
 })
-
-
-
 </script>
 <template>
   <main>
-    <Questionnaire />
+    <PopUp v-model="isShowModal">
+      <template #header>
+        Помогите нам подобрать для вас лучшие события!
+      </template>
+
+      <template #default>
+        <Questionnaire />
+      </template>
+    </PopUp>
     <div class="container">
       <h1>Рекомендации</h1>
       <div class="row recommendations-list">
