@@ -33,6 +33,7 @@ import { RouterLink, RouterView } from 'vue-router'
   justify-content: space-between
   margin-top: 1rem
   margin-bottom: 4rem
+  font-size: 14px
   &-left__list
     display: flex
     gap: 1rem
@@ -41,6 +42,6 @@ import { RouterLink, RouterView } from 'vue-router'
     gap: 1rem
 
   a
-    color: #000
+    color: #555
     text-decoration: none
 </style>

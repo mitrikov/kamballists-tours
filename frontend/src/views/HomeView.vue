@@ -51,7 +51,7 @@ onMounted(async () => {
       </div>
 
       <h1>Все события</h1>
-      <div class="row" v-if="eventsStore.events.length != 0">
+      <div class="row recommendations-list" v-if="eventsStore.events.length != 0">
         <div class="col2" v-for="event in eventsStore.events">
           <ItemCardOrder :event="event" />
         </div>

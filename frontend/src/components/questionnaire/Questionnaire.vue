@@ -3,7 +3,7 @@
     <div class="questionnaire_header">
       <ItemButtonBack v-if="historyStore.getHistory().getParent() || true" @click="historyStore.selectParent()"
           class="questionnaire_header-back">
-          &lt; - Предыдущий вопрос
+          Предыдущий вопрос
         </ItemButtonBack>
       <h2 class="questionnaire_header-title">Составим план идеальной поездки</h2>
     </div>
