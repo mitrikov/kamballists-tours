@@ -37,7 +37,8 @@ services:
         volumes:
             - ./backend/app/:/var/www/backend/app
             - ./backend/routes/:/var/www/backend/routes
-            - ./backend/.env:/var/www/backend/.env
+            #- ./backend/.env.production:/var/www/backend/.env
+            - ./backend/.env:/var/www/backend/.env.production
         networks:
             - tours-network
 
@@ -61,12 +62,12 @@ services:
         image: vokirtim/tours-frontend
         build:
           context: ./frontend
-          dockerfile: ./Dockerfile.dev
+          dockerfile: ./Dockerfile
         volumes:
           - /node_modules
         restart: unless-stopped
         env_file:
-          - ./frontend/.env
+          - ./frontend/.env.production
         networks:
             - tours-network
 
