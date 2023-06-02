@@ -65,7 +65,7 @@ def get_recommendations_for_user(user_oid):
     sparse_user_row_t = sparse_user_row.T
     recommends_raw = model.recommend(0, sparse_user_row, N=12, filter_already_liked_items=True, recalculate_user=True)
 
-    recommended_items_idx = np.unique(recommends_raw[0])
+    recommended_items_idx = np.array(recommends_raw[0])
     #
     # # Выборка предметов, с которыми пользователь взаимодействовал
     # user_liked_items = np.array(interactions_events_df.loc[interactions_events_df.user_id == user_oid])[:, 1]

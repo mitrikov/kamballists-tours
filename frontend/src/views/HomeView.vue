@@ -54,7 +54,7 @@ onMounted(async () => {
   <main>
     <PopUp v-model="isShowModal">
       <template #header>
-        Помогите нам подобрать для вас лучшие события!
+        <!-- Помогите нам подобрать для вас лучшие события! -->
       </template>
 
       <template #default>

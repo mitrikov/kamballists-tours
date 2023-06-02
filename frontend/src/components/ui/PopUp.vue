@@ -4,7 +4,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <slot name="header"></slot>
-                    <span class="close" style="padding-left: 30px; margin-right: 40px;" @click="closeModal">Закрыть</span>
+                    <span class="close" @click="closeModal"></span>
                 </div>
                 <slot></slot>
             </div>
@@ -77,6 +77,7 @@ body:has(.modal){
         min-height: calc(100% - 3.5rem)
         margin: 1.75rem auto
     &-content
+        position: relative
         width: fit-content
         width: 1320px
         background-color: var(--color-background-default)
@@ -100,10 +101,13 @@ body:has(.modal){
     z-index: 50
 .close
     display: block
+    position: absolute
+    top: 2.8rem
     width: 20px
     height: 20px
-    background: url(../close.svg) no-repeat 0 0
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAABBUlEQVR4nO3ZTQqDMBAF4HeKPOkV2+MWbE9jKXUhRcQk8xeZt3Il8xFNZgiQyWQyV8odwORdBH41fGtpygPAAmB2xkxrDctaU3UKgOf6gjeAG+zDTQ2vnho8MZRCeGIojfDAUAthiaE2wgJjhtDEmCM0MG4ISYw7QgITBtGDCYdowYRF1GDCI85ghkEcYYZD7M0Q899zhEGteWWGW4lttp+T53DWlUt8Wtz5sSOMzVU52p2GwfDEFhsew4pzIiyGDYddOAw7TuwwGAq0He4YCvZObhgqNIDmGCp2sWYYi1a8aGMs54mihfEYioo0xnOyK1KYCONpkcBc5urtMpehmUwmg3D5AAklyc9YEtl/AAAAAElFTkSuQmCC') no-repeat 0 0
     background-size: contain
     cursor: pointer
     line-height: 20px
+    z-index: 4
 </style>
