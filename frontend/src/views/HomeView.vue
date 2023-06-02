@@ -43,14 +43,14 @@ onMounted(async () => {
   <main>
     <Questionnaire />
     <div class="container">
-      <h1>Рекомендации</h1>
+      <h1 class="recommendations-title">Рекомендации <span>будут меняться в зависимости от лайков</span></h1>
       <div class="row recommendations-list">
           <div class="col2" v-for="rec in recomendEvents">
             <ItemCardOrder :event="rec" />
           </div>
       </div>
 
-      <h1>Все события</h1>
+      <h1>Все мероприятия</h1>
       <div class="row recommendations-list" v-if="eventsStore.events.length != 0">
         <div class="col2" v-for="event in eventsStore.events">
           <ItemCardOrder :event="event" />
@@ -65,4 +65,9 @@ onMounted(async () => {
 
 .recommendations-list
   margin-bottom: 3rem
+
+.recommendations-title
+  span
+    font-size: 12px
+    font-weight: normal
 </style>
