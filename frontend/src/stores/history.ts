@@ -17,6 +17,12 @@ const useHistoryStore = defineStore('history', {
                 return store.stage
             }
         },
+
+        getNextStep(store){
+            return () => {
+                return store.nextStep
+            }
+        }
     },
 
     actions: {

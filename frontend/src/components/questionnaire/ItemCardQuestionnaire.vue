@@ -30,10 +30,7 @@ function selectItem() {
     historyStore.answer.traveler_type = props.question.answer
   } else if(props.question.type == 'TravelerWealth') {
     historyStore.answer.traveler_wealth = props.question.answer
-  }
-
-
-  if(historyStore.getHistory().getPaths()[0])
+  } else if(historyStore.getHistory().getPaths()[0])
     historyStore.nextStep = historyStore.getHistory().getPaths()[0]
 
 }
