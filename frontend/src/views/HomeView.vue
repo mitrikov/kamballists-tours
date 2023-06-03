@@ -22,7 +22,16 @@ onMounted(async () => {
   userStore.user_id = await userStore.init()
   userStore.likes = await userStore.getListLikes()
   const answers = await server.get(`user/${userStore.user_id}`)
+  console.log("answers: ")
   console.log(answers)
+  //пхапх...
+  if(answers.cuisines){
+    historyStore.getAnswers().cuisines = answers.cuisines
+    historyStore.getAnswers().interests = answers.interests
+    historyStore.getAnswers().traveler_type = answers.traveler_type
+    historyStore.getAnswers().traveler_wealth = answers.traveler_wealth
+  }
+
   console.log(historyStore.getAnswers())
 
   let listRecomend = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id, {
@@ -40,15 +49,16 @@ onMounted(async () => {
   }))
   recomendEvents.value = listRecomend
   console.log(listRecomend)
-
-  eventsStore.events.map(e => {
-    if(userStore.checkForExistence(e._id)){
-      e.isLiked = true
-    } else {
-      e.isLiked = false
-    }
-    return e
-  })
+  if(userStore.likes.length > 0) {
+    eventsStore.events.map(e => {
+      if (userStore.checkForExistence(e._id)) {
+        e.isLiked = true
+      } else {
+        e.isLiked = false
+      }
+      return e
+    })
+  }
 })
 </script>
 <template>

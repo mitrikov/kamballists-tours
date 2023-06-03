@@ -23,9 +23,8 @@ class SiteUserController extends Controller
 
     public function likes(Request $request) {
         $result = User::find($request->get('user_id'));
-
-        if(is_null($result)) {
-            return Errors::notFound();
+        if(is_null($result->likes)) {
+            return response()->json([], 200);
         } else {
             return response()->json($result->likes, 200);
         }
