@@ -13,7 +13,6 @@ class SiteUserController extends Controller
 {
     public function newUser(Request $request) {
         $user = new User();
-
         $user->save();
         return response()->json($user->_id, 200);
     }
@@ -45,12 +44,36 @@ class SiteUserController extends Controller
 
         $likes = $user->likes;
 
-
         if (!in_array($event_id, $likes['events'])) {
             $likes['events'][] = $event_id;
         }
 
         $user->likes = $likes;
+        $user->save();
+
+        return response()->json($user, 200);
+    }
+
+    public function saveUserQuestionnaire(Request $req, $user_id) {
+        $user = User::find($user_id);
+        // Валидация на if'aх - самое стабильное, что может быть!
+        
+        if($req->filled('traveler_wealth')) {
+            $user->traveler_wealth = $req->get('traveler_wealth');
+        }
+
+        if($req->filled('traveler_type')) {
+            $user->traveler_type = $req->get('traveler_type');
+        }
+
+        if($req->filled('interests')) { 
+            $user->interests = explode(',', $req->get('interests'));
+        }
+
+        if($req->filled('cuisines')) { 
+            $user->cuisines = explode(',', $req->get('cuisines'));
+        }
+
         $user->save();
 
         return response()->json($user, 200);

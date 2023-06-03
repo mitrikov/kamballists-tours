@@ -32,6 +32,7 @@ Route::prefix('user')->group(function (){
     Route::get('/likes', [SiteUserController::class, 'likes']);
 });
 
+Route::put("users/{id}", [SiteUserController::class, 'saveUserQuestionnaire']);
 
 Route::get('new-user', [SiteUserController::class, 'newUser']);
 Route::get('like', [SiteUserController::class, 'like']);

@@ -26,11 +26,12 @@ def get_recommendations_for_user(user_oid):
     users_df = pd.DataFrame(data=users, columns=['user_id'])
     events_df = pd.DataFrame(data=events, columns=['event_id'])
 
+    # Вспомогательные функция для получения индексов в матрице ObjectId users/items по индексам в матрице
     def get_user_row_by_oid(oid):
         return users_df.index[users_df['user_id'] == oid]
 
     def get_event_col_by_oid(oid):
-        return events_df.index[events_df['event_id'] == oid][0]
+        return events_df.index[events_df['event_id'] == oid]
 
     users_rows = np.array(users_df.values[:, 0])
     events_cols = np.array(events_df.values[:, 0])
@@ -47,7 +48,7 @@ def get_recommendations_for_user(user_oid):
         like_row = get_user_row_by_oid(user["_id"])[0]
         if "likes" in user:
             for event in user["likes"]:
-                like_col = get_event_col_by_oid(event)
+                like_col = get_event_col_by_oid(event)[0]
                 likes_row_pos.append(like_row)
                 likes_col_pos.append(like_col)
                 likes_data.append(1)
@@ -56,13 +57,13 @@ def get_recommendations_for_user(user_oid):
     sparse_matrix = sp.csr_matrix((likes_data, (likes_row_pos, likes_col_pos)), shape=(len(users), len(events)))
     sparse_matrix_t = sparse_matrix
 
-
-    # # Факторизация матрицы ALS
+    # Факторизация методом ALS
     model = implicit.als.AlternatingLeastSquares(factors=6, regularization=0.0, iterations=5)
+
+    # Подсчёт весов
     model.fit(sparse_matrix_t)
 
     sparse_user_row = sparse_matrix.getrow(get_user_row_by_oid(user_oid)[0])
-    sparse_user_row_t = sparse_user_row.T
     recommends_raw = model.recommend(0, sparse_user_row, N=12, filter_already_liked_items=True, recalculate_user=True)
 
     recommended_items_idx = np.array(recommends_raw[0])
