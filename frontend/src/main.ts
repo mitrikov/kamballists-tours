@@ -9,7 +9,7 @@ import UIcomponents from '@/components/ui/'
 import PrimeVue from 'primevue/config'
 import "primevue/resources/themes/lara-light-indigo/theme.css";
 import "primevue/resources/primevue.min.css";
-
+import 'sweetalert2/src/sweetalert2.scss'
 const app = createApp(App)
 
 app.use(createPinia())

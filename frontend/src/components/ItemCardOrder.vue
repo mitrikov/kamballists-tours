@@ -3,28 +3,28 @@
     <div class="wrapper">
       <div class="card-img"></div>
       <div class="card-content">
-        <h5 class="card-content__title">{{ event.dictionary_data.title }}</h5>
-        <p class="card-content__desc">{{ event.dictionary_data.link_source }}</p>
+        <h5 class="card-content__title">
+          <a :href="event.dictionary_data.link_source" target="_blank">{{ event.dictionary_data.title }}</a>
+          <span class="card-content__age">{{event.dictionary_data.age ?? event.dictionary_data.age}}</span>
+        </h5>
+        <p class="card-content__desc" >{{ cutText(event.dictionary_data.description) }}</p>
 
       </div>
 
     </div>
 
     <ul class="card-content__list-strong">
-      <li class="card-content__list_options_strong">Питание включено</li>
       <li class="card-content__list_options_strong">Бесплатная отмена</li>
     </ul>
     <ul class="card-content__list">
       <li>Wi-Fi</li>
-      <li>Бассейн</li>
       <li>Парковка</li>
-      <li>Кондиционер в номере</li>
-      <li>Тренажёрный зал</li>
       <li>Оплата картой</li>
     </ul>
 
     <div class="card-content__btns">
-      <button class="card-content__btn card-content__btn_show">от {{ event.dictionary_data.ticket_price }} ₽ за ночь
+      <button class="card-content__btn card-content__btn_show">
+        от {{ event.dictionary_data.ticket_price }} ₽
         <span>Посмотреть</span></button>
       <button class="card-content__btn card-content__btn_like" @click="like">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -51,6 +51,14 @@ const props = defineProps<{
 const eventsStore = useEventsStore()
 const userStore = useUserStore()
 
+
+function cutText(text) {
+  var sliced = text.slice(0,60);
+  if (sliced.length < text.length) {
+    sliced += '...';
+  }
+  return sliced
+}
 function getColor(){
   return props.event.isLiked ? "red" : "#1D1D1D"
 }
@@ -73,17 +81,22 @@ function like() {
   &-img
     width: 100%
     height: 290px
-    background: url(@/assets/images/hostel.png) no-repeat center
+    background: url(no-phono.jpg) no-repeat center
     background-size: cover
     border-radius: 21px
   &-content
     padding: 10px
-    
     &__title
+      display: flex
+      justify-content: space-between
       font-weight: bold
       font-size: 16px
       line-height: 22px
       color: var(--color-primary)
+      margin-bottom: 10px
+      a
+        color: var(--color-primary)
+        text-decoration: none
     &__desc
       font-weight: bold
       font-size: 14px
@@ -103,6 +116,10 @@ function like() {
       margin-bottom: 1rem
       li
         margin-right: 6px
+        &::after
+          content: ','
+        &:last-child::after
+          content: ''
       &-strong
         display: flex
         flex-wrap: wrap
@@ -112,6 +129,10 @@ function like() {
         margin-bottom: 7px
         li
           margin-right: 6px
+          &::after
+            content: ','
+          &:last-child::after
+            content: ''
           
     &__btns
       display: flex

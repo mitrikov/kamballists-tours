@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+
 </script>
 
 <template>
@@ -28,12 +29,16 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style lang="sass" scoped>
+@import "@/assets/sass/helpers"
+@import 'sweetalert2/src/sweetalert2.scss'
 .menu
   display: flex
   justify-content: space-between
   margin-top: 1rem
   margin-bottom: 4rem
   font-size: 14px
+  @media (max-width: $md)
+    display: none
   &-left__list
     display: flex
     gap: 1rem

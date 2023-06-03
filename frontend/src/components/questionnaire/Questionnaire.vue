@@ -33,6 +33,10 @@ import axios from "axios"
 import {server} from "@/helpers"
 import {ref, watch} from "vue"
 import {useUserStore} from "@/stores/user"
+import Swal from "sweetalert2";
+
+
+
 const historyStore = useHistoryStore()
 const userStore = useUserStore()
 let recomendEvents = ref()
@@ -46,7 +50,15 @@ async function next() {
     console.log('finish!')
     try {
       await updateRecommendation()
+
     } catch (e) { /* empty */ }
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Рекомендации обновлены',
+      showConfirmButton: false,
+      timer: 1500
+    })
     emit('finish')
   }
 }

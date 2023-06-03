@@ -18,7 +18,6 @@ const emit = defineEmits(['answer'])
 
 const historyStore = useHistoryStore()
 const element = ref()
-
 function selectItem() {
   if(typeof props.question.answer == 'number'){
     historyStore.nextStep = historyStore.getHistory().getPaths()[props.question.answer]

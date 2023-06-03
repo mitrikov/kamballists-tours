@@ -3,7 +3,6 @@ import ItemListQuestions from '@/components/questionnaire/itemListQuestions.vue'
 import ItemWhereAndWhen from "@/components/questionnaire/ItemWhereAndWhen.vue";
 import ItemInterests from "@/components/questionnaire/ItemInterests.vue";
 import ItemKitchen from "@/components/questionnaire/ItemKitchen.vue";
-import useHistoryStore from "@/stores/history";
 import {TravelerType, TravelerWealth} from "@/interfaces";
 
 

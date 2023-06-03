@@ -29,7 +29,9 @@ $section-gap-md: 3rem
 .container
   max-width: 1320px
   margin: 0 auto
-
+  @media (max-width: $md)
+    width: 100%
+    padding: $container-gap-md
   &[data-type='hgaps']
     padding-left: $container-gap
     padding-right: $container-gap
@@ -69,6 +71,20 @@ $section-gap-md: 3rem
   grid-column: span 5
 .col6
   grid-column: span 6
+
+@media (max-width: $md)
+  .col-md
+    grid-column: span 1
+  .col-md2
+    grid-column: span 2
+  .col-md3
+    grid-column: span 3
+  .col-md4
+    grid-column: span 4
+  .col-md5
+    grid-column: span 5
+  .col-md6
+    grid-column: span 6
 .flex
   display: flex
 .jc-c
@@ -78,3 +94,5 @@ $section-gap-md: 3rem
 
 h1
   margin-bottom: 20px
+  @media (max-width: $md)
+    font-size: 20px

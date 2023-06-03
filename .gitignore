@@ -3,3 +3,5 @@ db/mongo-volume/
 db/data
 .idea
 db/mongo-volume
+node_modules
+package-lock.json
