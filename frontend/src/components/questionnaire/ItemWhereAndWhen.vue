@@ -45,14 +45,14 @@ watch(date, (newValue, oldValue) => {
 </script>
 
 <template>
-  <div class="row">
-    <div class="col3">
-      <div class="item" v-if="storyStore.stage.data.type <= 2">
+  <div class="row place-and-date">
+    <div class="col3" v-if="storyStore.stage.data.type <= 2">
+      <div class="item" >
         <AutoComplete v-model="selectedPlace" :suggestions="listCities" @complete="search" dropdown forceSelection placeholder="Куда?" class="md:w-20rem w-full" />
       </div>
     </div>
-    <div class="col3">
-      <div class="item" v-if="storyStore.stage.data.type >= 2">
+    <div class="col3" v-if="storyStore.stage.data.type >= 2">
+      <div class="item" >
         <Calendar v-model="date" dateFormat="dd-mm-yy" :minDate="new Date()" placeholder="Когда?" />
       </div>
     </div>
@@ -61,6 +61,15 @@ watch(date, (newValue, oldValue) => {
 
 <style scoped lang="sass">
 @import "@/assets/sass/helpers.sass"
+
+.row.place-and-date
+  display: flex
+  justify-content: center
+
+  .col3
+    flex-basis: 50%
+  .item
+    width: 100%
 .item
   display: flex
   justify-content: center
