@@ -4,8 +4,9 @@ from scipy import sparse as sp
 from sklearn.preprocessing import normalize
 from pymongo import MongoClient
 import implicit
-from .utils import process_users, process_events, interactions_to_matrix, get_user_likes
+from .utils import process_users, process_events, get_user_likes, get_user_cluster_dict
 from django.conf import settings
+from bson.objectid import ObjectId
 
 
 def get_recommendations_for_user(user_oid):
@@ -13,15 +14,20 @@ def get_recommendations_for_user(user_oid):
     mongo_client = MongoClient(settings.DB_URI)
     db = mongo_client.tours
 
-    # Запрос events из бд
-    users_raw = db.users.find({}, {"_id": {"$toString": "$_id"}, "likes": "$likes.events"})
+    # Получение текущего пользователя
+    current_user_raw = db.users.find_one({"_id": ObjectId(user_oid)})
+
+    # Получение данных о предпочтения пользователя для привязки к кластеру
+    current_user_cluster = get_user_cluster_dict(current_user_raw)
+
+    # Запрос данных из бд
+    users_raw = db.users.find(current_user_cluster, {"_id": {"$toString": "$_id"}, "likes": "$likes.events"})
     events_raw = db.events.find({}, {"_id": {"$toString": "$_id"}})
 
     # Преобразование в нужный нам формат для датафрейма
-
     users = process_users(users_raw)
     events = process_events(events_raw)
-
+    
     # Генерация датафрейма
     users_df = pd.DataFrame(data=users, columns=['user_id'])
     events_df = pd.DataFrame(data=events, columns=['event_id'])
@@ -58,7 +64,7 @@ def get_recommendations_for_user(user_oid):
     sparse_matrix_t = sparse_matrix
 
     # Факторизация методом ALS
-    model = implicit.als.AlternatingLeastSquares(factors=6, regularization=0.0, iterations=5)
+    model = implicit.als.AlternatingLeastSquares(factors=6, regularization=0.1, iterations=5)
 
     # Подсчёт весов
     model.fit(sparse_matrix_t)
@@ -67,20 +73,14 @@ def get_recommendations_for_user(user_oid):
     recommends_raw = model.recommend(0, sparse_user_row, N=12, filter_already_liked_items=True, recalculate_user=True)
 
     recommended_items_idx = np.array(recommends_raw[0])
-    #
-    # # Выборка предметов, с которыми пользователь взаимодействовал
-    # user_liked_items = np.array(interactions_events_df.loc[interactions_events_df.user_id == user_oid])[:, 1]
-    # user_idx = interactions_events_df.loc[interactions_events_df.user_id == user_oid].index[0]
-    # print(user_idx)
-    # # Построение рекомендаций
-    #
-    # recommended_items_idx = np.unique(recommends_raw[0])
-    # print(interactions_events_df)
 
     recommended_items = []
     for idx in recommended_items_idx:
         recommended_items.append(events_df.iloc[idx][0])
 
+    print("Кластер пользователей с параметрами:")
+    print(current_user_cluster)
+    print("Позиции рекомендованых мероприятий:")
     print(recommended_items_idx)
 
     return recommended_items

@@ -74,8 +74,48 @@ class SiteUserController extends Controller
             $user->cuisines = explode(',', $req->get('cuisines'));
         }
 
+        SiteUserController::coldStartTweak($user);
+
         $user->save();
 
         return response()->json($user, 200);
+    }
+
+    private static function coldStartTweak($user) {
+        if(isset($user->likes) && count($user->$likes['events']) != 0) return;
+        if(!isset($user->likes)){
+            $user->likes = [
+                'events' => [],
+                'excursions' => [],
+                'hotels' => [],
+                'restaurants' => [],
+            ];
+        }
+       
+        if(isset($user->traveler_type)) {
+            if($user->traveler_type == "popular") {
+
+                $user->likes->events = ["64287f5158b0515ee399ac5e"];
+            }
+
+            if($user->traveler_type == "advanced") {
+                $user->likes->events = ["6423d71b3f8bc5de45ad5d0b"];
+            }
+        }
+
+        if(isset($user->traveler_wealth)) {
+            if($user->traveler_type == "econom") {
+                $user->likes->events = ["642bdbe18e639d06116630b1"];
+            }
+
+            if($user->traveler_type == "medium") {
+                $user->likes->events = ["63f06c43961d4400a353cc71"];
+            }
+
+            
+            if($user->traveler_type == "vip") {
+                $user->likes->events = ["64287ab158b0515ee398ca99"];
+            }
+        }
     }
 }

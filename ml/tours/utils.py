@@ -1,6 +1,4 @@
-import numpy as np
-from scipy import sparse as sp
-
+from enum import Enum
 
 # Функция преобразования вложенных объектов взаимодействий пользователя в список
 def process_users(users_mongo_raw):
@@ -32,49 +30,25 @@ def get_user_likes(users_mongo_raw):
     return result
 
 
-class UserEncoder:
-    def __init__(self, interactions_df):
+def get_user_cluster_dict(user_mongo_raw):
+    cluster_dict = {}
+    if "traveler_type" in user_mongo_raw:
+        cluster_dict.update({"traveler_type": user_mongo_raw["traveler_type"]})
 
-        # fill product part
-        self.user_idx = {}
-        self.user_oid = {}
+    if "traveler_wealth" in user_mongo_raw:
+        cluster_dict.update({"traveler_wealth": user_mongo_raw["traveler_wealth"]})
 
-        for idx, row in enumerate(interactions_df.itertuples()):
-            oid = row.user_id
-            self.user_idx[oid] = idx
-            self.user_oid[idx] = oid
+    return cluster_dict
 
-    def to_idx(self, x):
-        if type(x) == str:
-            oid = x
-            return self.user_idx[oid]
-        return [self.user_idx[oid] for oid in x]
-
-    def to_oid(self, x):
-        if type(x) == int:
-            idx = x
-            return self.user_oid[idx]
-        return [self.user_oid[idx] for idx in x]
-
-    @property
-    def num_products(self):
-        return len(self.user_idx)
+class TravelerType(Enum):
+    popular = 1
+    advanced = 2
 
 
+class TravelerWealth(Enum):
+    econom = 1
+    medium = 2
+    vip = 3
 
-# Функция преобразования вложенных объектов взаимодействий пользователя в матрицу
-def interactions_to_matrix(interactions_data):
-    result = []
-    cols = []
-    rows = []
-
-    for item in interactions_data:
-        cols.append(item["_id"])
-        # if hasattr(item, 'likes'):
-        for like in item['likes']:
-            rows.append(like)
-            result.append([item["_id"], like, 1])
-
-    return sp.coo_matrix(1, (np.array(rows), np.array(cols)))
 
 
