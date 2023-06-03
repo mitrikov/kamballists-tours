@@ -33,11 +33,14 @@ onMounted(async () => {
   }
 
   console.log(historyStore.getAnswers())
+  
+  const recommendedResponse = await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id)
+  const recommendedIds = JSON.parse(recommendedResponse.data)
 
-  let listRecomend = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id)).data)
+  recommendedEvents.value = await server.get('events', {ids: recommendedIds })
 
-  recommendedEvents = await server.get('events', {ids: listRecomend })
-  console.log(listRecomend)
+  console.log(recommendedEvents)
+
   if(userStore.likes.length > 0) {
     eventsStore.events.map(e => {
       if (userStore.checkForExistence(e._id)) {
@@ -63,18 +66,21 @@ onMounted(async () => {
     </PopUp>
     <div class="container">
       <h1 class="recommendations-title">Рекомендации <span>будут меняться в зависимости от лайков</span></h1>
-      <div class="row recommendations-list">
+      <div class="row recommendations-list" v-if="recommendedEvents.length !== 0">
           <div class="col2 col-md6" v-for="rec in recommendedEvents">
             <ItemCardOrder :event="rec" />
           </div>
+         
       </div>
+      <Preloader v-else />
 
       <h1>Все мероприятия</h1>
-      <div class="row recommendations-list" v-if="eventsStore.events.length != 0">
+      <div class="row recommendations-list" v-if="eventsStore.events.length !== 0">
         <div class="col2 col-md6" v-for="event in eventsStore.events">
           <ItemCardOrder :event="event" />
         </div>
       </div>
+      <Preloader v-else />
     </div>
   </main>
 </template>
