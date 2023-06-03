@@ -29,6 +29,7 @@ use \App\Http\Controllers\TrackController;
 //});
 
 Route::prefix('user')->group(function (){
+    Route::get('{id}', [SiteUserController::class, 'user']);
     Route::get('/likes', [SiteUserController::class, 'likes']);
 });
 

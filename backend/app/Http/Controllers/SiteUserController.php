@@ -17,9 +17,13 @@ class SiteUserController extends Controller
         return response()->json($user->_id, 200);
     }
 
+    public function user(Request $request, string $id) {
+        return response()->json(User::find($id), 200);
+    }
+
     public function likes(Request $request) {
         $result = User::find($request->get('user_id'));
-        
+
         if(is_null($result)) {
             return Errors::notFound();
         } else {
@@ -57,7 +61,7 @@ class SiteUserController extends Controller
     public function saveUserQuestionnaire(Request $req, $user_id) {
         $user = User::find($user_id);
         // Валидация на if'aх - самое стабильное, что может быть!
-        
+
         if($req->filled('traveler_wealth')) {
             $user->traveler_wealth = $req->get('traveler_wealth');
         }
@@ -66,11 +70,11 @@ class SiteUserController extends Controller
             $user->traveler_type = $req->get('traveler_type');
         }
 
-        if($req->filled('interests')) { 
+        if($req->filled('interests')) {
             $user->interests = explode(',', $req->get('interests'));
         }
 
-        if($req->filled('cuisines')) { 
+        if($req->filled('cuisines')) {
             $user->cuisines = explode(',', $req->get('cuisines'));
         }
 
