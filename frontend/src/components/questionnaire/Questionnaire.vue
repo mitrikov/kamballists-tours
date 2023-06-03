@@ -52,21 +52,20 @@ async function next() {
 }
 
 async function updateRecommendation() {
-  let listRecomend = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id, {
-    params: {
+  const modifiedUser = await axios.put(import.meta.env.VITE_BACKEND_URL + "/api/users/" + userStore.user_id, {
       city: historyStore.getAnswers().city,
       cuisines: historyStore.getAnswers().cuisines.join(','),
       fromDate: historyStore.getAnswers().fromDate,
       interests: historyStore.getAnswers().interests.join(','),
       traveler_type: historyStore.getAnswers().traveler_type,
       traveler_wealth: historyStore.getAnswers().traveler_wealth,
-    }
-  })).data)
+  })
+  let listRecomend = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id, {})).data)
   listRecomend = (await server.get('events', {
     ids: listRecomend
   }))
   recomendEvents.value = listRecomend
-  console.log('update')
+  console.log(modifiedUser)
   console.log(listRecomend)
 }
 

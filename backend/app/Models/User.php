@@ -14,6 +14,10 @@ class User extends Model
 
     protected $fillable = [
         'likes',
+        'traveler_wealth',
+        'traveler_type',
+        'interests',
+        'cuisines'
     ];
 
     protected $casts = [
