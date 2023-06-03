@@ -34,12 +34,13 @@ import {server} from "@/helpers"
 import {ref, watch} from "vue"
 import {useUserStore} from "@/stores/user"
 import Swal from "sweetalert2";
+import useEventsStore from "@/stores/events"
 
 
 
 const historyStore = useHistoryStore()
 const userStore = useUserStore()
-let recomendEvents = ref()
+const eventsStore = useEventsStore()
 
 const emit = defineEmits(['finish'])
 
@@ -72,11 +73,9 @@ async function updateRecommendation() {
       traveler_type: historyStore.getAnswers().traveler_type,
       traveler_wealth: historyStore.getAnswers().traveler_wealth,
   })
-  let listRecomend = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id, {})).data)
-  listRecomend = (await server.get('events', {
-    ids: listRecomend
-  }))
-  recomendEvents.value = listRecomend
+  let listRecomend = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id)).data)
+
+  eventsStore.recommendedEvents = await server.get('events', {ids: listRecomend})
   console.log(modifiedUser)
   console.log(listRecomend)
 }

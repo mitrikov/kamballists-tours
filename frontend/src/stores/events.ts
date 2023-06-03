@@ -5,6 +5,7 @@ import {server} from "@/helpers";
 const useEventsStore = defineStore('events', () => {
     const eventsPag : Ref<Array<{  }>> = ref([])
     const events : Ref<Array<{  }>> = ref([])
+    const recommendedEvents : Ref<Array<{  }>> = ref([])
 
     const fetchEvents = async () : Promise<Array<{  }>>  => {
         const result = await server.get("events")
@@ -19,6 +20,7 @@ const useEventsStore = defineStore('events', () => {
     return {
         eventsPag,
         events,
+        recommendedEvents,
         fetchEvents,
         fetchByEventId,
     }
