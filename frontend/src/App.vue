@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
   <header>
-    <div class="container">
+    <div class="container" data-type="hgaps">
       <nav class="menu">
         <div class="menu-left">
           <div class="menu-logo"></div>

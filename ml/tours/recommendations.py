@@ -17,7 +17,7 @@ def get_recommendations_for_user(user_oid):
     # Получение текущего пользователя
     current_user_raw = db.users.find_one({"_id": ObjectId(user_oid)})
 
-    # Получение данных о предпочтения пользователя для привязки к кластеру
+    # Получение данных о предпочтениях пользователя для привязки к кластеру
     current_user_cluster = get_user_cluster_dict(current_user_raw)
 
     # Запрос данных из бд

@@ -40,6 +40,7 @@ def get_user_cluster_dict(user_mongo_raw):
 
     return cluster_dict
 
+
 class TravelerType(Enum):
     popular = 1
     advanced = 2

@@ -64,7 +64,7 @@ onMounted(async () => {
         <Questionnaire @finish="isShowModal = false" />
       </template>
     </PopUp>
-    <div class="container">
+    <div class="container" data-type="hgaps">
       <h1 class="recommendations-title">Рекомендации <span>будут меняться в зависимости от лайков</span></h1>
       <div class="row recommendations-list" v-if="recommendedEvents.length !== 0">
           <div class="col2 col-md6" v-for="rec in recommendedEvents">
@@ -73,14 +73,17 @@ onMounted(async () => {
          
       </div>
       <Preloader v-else />
-
-      <h1>Все мероприятия</h1>
-      <div class="row recommendations-list" v-if="eventsStore.events.length !== 0">
-        <div class="col2 col-md6" v-for="event in eventsStore.events">
-          <ItemCardOrder :event="event" />
+    </div>
+    <div class="all-events">
+      <div class="container" data-type="hgaps">
+        <h1>Все мероприятия</h1>
+        <div class="row recommendations-list" v-if="eventsStore.events.length !== 0">
+          <div class="col2 col-md6" v-for="event in eventsStore.events">
+            <ItemCardOrder :event="event" />
+          </div>
         </div>
+        <Preloader v-else />
       </div>
-      <Preloader v-else />
     </div>
   </main>
 </template>
@@ -90,6 +93,17 @@ onMounted(async () => {
 
 .recommendations-list
   margin-bottom: 3rem
+
+
+.all-events
+  background-color: #faedd7
+  padding: 4rem 0
+  border-top-left-radius: 50px
+  border-top-right-radius: 50px
+  @media (max-width: $md)
+    padding-top: 2.5rem
+  .card
+    background-color: #fff6
 
 .recommendations-title
   span
