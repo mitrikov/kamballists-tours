@@ -8,6 +8,12 @@ from .utils import process_users, process_events, get_user_likes, get_user_clust
 from django.conf import settings
 from bson.objectid import ObjectId
 
+# Для подсчёта веса события необходимо ввести систему рейтинга
+# Положим, что максимальный бал - 10, тогда взаимодействия распределим следующим методом
+
+LOOK_WEIGHT = 1 # Просмотр события
+LIKE_WEIGHT = 3 # Добавление в избранное
+BUY_WEIGHT = 6 # Покупка
 
 def get_recommendations_for_user(user_oid):
 
@@ -21,7 +27,7 @@ def get_recommendations_for_user(user_oid):
     current_user_cluster = get_user_cluster_dict(current_user_raw)
 
     # Запрос данных из бд
-    users_raw = db.users.find(current_user_cluster, {"_id": {"$toString": "$_id"}, "likes": "$likes.events"})
+    users_raw = db.users.find(current_user_cluster, {"_id": {"$toString": "$_id"}, "likes": "$likes.events", "transactions": "$transactions.events"})
     events_raw = db.events.find({}, {"_id": {"$toString": "$_id"}})
 
     # Преобразование в нужный нам формат для датафрейма
@@ -45,24 +51,37 @@ def get_recommendations_for_user(user_oid):
     # Вычисляем координаты лайков в матрице
     users_raw.rewind()
 
-    likes_row_pos = []
-    likes_col_pos = []
-    likes_data = []
+    interactions_row_pos = []
+    interactions_col_pos = []
+    interactions_data = []
 
     for user in users_raw:
         # if likes in user:
-        like_row = get_user_row_by_oid(user["_id"])[0]
+        interactions_row = get_user_row_by_oid(user["_id"])[0]
+        interactions_sum = 0
+
         if "likes" in user:
             for event in user["likes"]:
-                like_col = get_event_col_by_oid(event)[0]
-                likes_row_pos.append(like_row)
-                likes_col_pos.append(like_col)
-                likes_data.append(1)
+                interactions_col = get_event_col_by_oid(event)[0]
+                interactions_row_pos.append(interactions_row)
+                interactions_col_pos.append(interactions_col)
+                interactions_data.append(LIKE_WEIGHT)
 
+        if "transactions" in user:
+            for event in user["transactions"]:
+                interactions_col_transaction = get_event_col_by_oid(event)[0]
+                if interactions_col_transaction == transactions_col: 
+                    interactions_row_pos.append(interactions_row)
+                    interactions_col_pos.append(interactions_col)
+                    # interactions_data[-1] += BUY_WEIGHT
+                else: # Если уже запись в матрице существует, то прибавляем значение
+                    interactions_sum += BUY_WEIGHT
+                    # interactions_data.append(interactions_sum)
+        
     # Создание разреженной матрицы данных
-    sparse_matrix = sp.csr_matrix((likes_data, (likes_row_pos, likes_col_pos)), shape=(len(users), len(events)))
+    sparse_matrix = sp.csr_matrix((interactions_data, (interactions_row_pos, interactions_col_pos)), shape=(len(users), len(events)))
     sparse_matrix_t = sparse_matrix
-
+    print(sparse_matrix)
     # Факторизация методом ALS
     model = implicit.als.AlternatingLeastSquares(factors=6, regularization=0.1, iterations=5)
 
