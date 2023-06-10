@@ -66,9 +66,9 @@ export class Story {
 
 // @ts-ignore
 const story = new Story("Куда и когда?", ItemListQuestions, 1, [
-    { title: 'Уже знаю направление и дату поездки', img: '1.png', answer: 0 },
-    { title: 'Знаю когда, но не выбрал направление', img: '2.png', answer: 1 },
-    { title: 'Определился с направлением, но не выбрал дату', img: '3.png', answer: 2  }
+    { title: 'Определился с направлением, но не выбрал дату', img: '3.png', answer: 0  },
+    { title: 'Уже знаю направление и дату поездки', img: '1.png', answer: 1 },
+    { title: 'Знаю когда, но не выбрал направление', img: '2.png', answer: 2 }
 ])
 // @ts-ignore
 const storyA = story.addPath(new Story("Куда и когда?", ItemWhereAndWhen, 2, {
