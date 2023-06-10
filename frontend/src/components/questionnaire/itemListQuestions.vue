@@ -1,6 +1,6 @@
 <template>
-  <ul class="row questionnaire_list" ref="list">
-    <li class="col2"  v-for="item in storyStore.stage.data" >
+  <ul class="questionnaire-list" ref="list">
+    <li class="questionnaire-list__col"  v-for="item in storyStore.stage.data" >
       <ItemCardQuestionnaire :question="item" @click="highlightSelected" class="temp"></ItemCardQuestionnaire>
     </li>
   </ul>
@@ -30,4 +30,11 @@ const highlightSelected = (e : Event) => {
 
 <style lang="sass" scoped>
 @import "@/assets/sass/helpers.sass"
+
+.questionnaire-list
+  display: flex
+  justify-content: center
+  gap: 20px
+  &__col
+    width: 33.333%
 </style>

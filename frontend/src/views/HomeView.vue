@@ -84,7 +84,7 @@ onMounted(async () => {
     </div>
     <div class="all-events">
       <div class="container" data-type="hgaps">
-        <h1>Все мероприятия</h1>
+        <h1 class="recommendations-title">Все мероприятия <span>в системе</span></h1>
         <div class="row recommendations-list" v-if="eventsStore.events.length !== 0">
           <div class="col2 col-md6" v-for="event in eventsStore.events">
             <ItemCardOrder :event="event" />
