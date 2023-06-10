@@ -10,7 +10,7 @@ import {a} from "vitest/dist/types-ad1c3f45";
 const citiesStore = useCitiesStore()
 
 let selectedPlace: Ref<Array<Object> | undefined> = ref()
-let date: Ref<Date> = ref(new Date())
+let dates: Ref<Array<Date>> = ref([])
 let listCities: Ref<Array<String> | undefined> = ref()
 const storyStore = useHistoryStore()
 
@@ -38,9 +38,9 @@ watch(selectedPlace, (newValue, oldValue) => {
   allowNextStep()
 })
 
-watch(date, (newValue, oldValue) => {
-  storyStore.answer.fromDate = newValue
-
+watch(dates, (newValue, oldValue) => {
+  storyStore.answer.fromDate = newValue[0]
+  storyStore.answer.byDate = newValue[1]
 })
 </script>
 
@@ -53,7 +53,7 @@ watch(date, (newValue, oldValue) => {
     </div>
     <div class="col3" v-if="storyStore.stage.data.type >= 2">
       <div class="item" >
-        <Calendar v-model="date" dateFormat="dd-mm-yy" :minDate="new Date()" placeholder="Когда?" />
+        <Calendar v-model="dates" dateFormat="dd-mm-yy" selectionMode="range" :manualInput="false" :minDate="new Date()" placeholder="Когда?" />
       </div>
     </div>
   </div>

@@ -44,6 +44,7 @@ export class Answer {
     public cuisines: Array<Cuisines>
     public city: any = null
     public fromDate: Ref<Date | undefined> = null
+    public byDate: Ref<Date | undefined> = null
 
     constructor() {
         this.traveler_type = null
