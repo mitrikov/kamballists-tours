@@ -9,6 +9,7 @@ import axios from "axios";
 import PopUp from "@/components/ui/PopUp.vue";
 import useHistoryStore from "@/stores/history";
 import { storeToRefs } from 'pinia'
+import ItemButton from "@/components/ui/ItemButton.vue";
 
 const eventsStore = useEventsStore()
 const historyStore = useHistoryStore()
@@ -17,6 +18,11 @@ let isShowModal = ref(true)
 let {recommendedEvents} = storeToRefs(eventsStore)
 
 onMounted(async () => {
+  await updateRec()
+})
+
+async function updateRec() {
+  recommendedEvents.value = []
   eventsStore.eventsPag = await eventsStore.fetchEvents()
   eventsStore.events = eventsStore.eventsPag.data
   userStore.user_id = await userStore.init()
@@ -24,7 +30,7 @@ onMounted(async () => {
   userStore.transactions = await userStore.getListTransactions()
   const answers = await server.get(`user/${userStore.user_id}`)
   //пхапх...
-  if(answers.cuisines){
+  if (answers.cuisines) {
     historyStore.getAnswers().cuisines = answers.cuisines
     historyStore.getAnswers().interests = answers.interests
     historyStore.getAnswers().traveler_type = answers.traveler_type
@@ -34,8 +40,8 @@ onMounted(async () => {
   const recommendedResponse = await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id)
   const recommendedIds = JSON.parse(recommendedResponse.data)
 
-  recommendedEvents.value = await server.get('events', {ids: recommendedIds })
-  if(userStore.likes.length > 0) {
+  recommendedEvents.value = await server.get('events', {ids: recommendedIds})
+  if (userStore.likes.length > 0) {
     eventsStore.events.map(e => {
       if (userStore.checkForExistenceLikes(e._id)) {
         e.isLiked = true
@@ -46,7 +52,7 @@ onMounted(async () => {
     })
   }
 
-  if(userStore.transactions.length > 0) {
+  if (userStore.transactions.length > 0) {
     eventsStore.events.map(e => {
       if (userStore.checkForExistenceTransactions(e._id)) {
         e.isBuy = true
@@ -56,10 +62,7 @@ onMounted(async () => {
       return e
     })
   }
-
-  // console.log(eventsStore.events.filter(e => e.isLiked))
-  // console.log(eventsStore.events.filter(e => e.isBuy))
-})
+}
 </script>
 <template>
   <main>
@@ -73,7 +76,16 @@ onMounted(async () => {
       </template>
     </PopUp>
     <div class="container" data-type="hgaps">
-      <h1 class="recommendations-title">Рекомендации <span>будут меняться в зависимости от лайков</span></h1>
+      <div class="heedaer">
+        <h1 class="recommendations-title">
+          Рекомендации <span>будут меняться в зависимости от лайков</span>
+        </h1>
+        <ItemButton @click="updateRec" style="width: 50px; height: 50px;">
+          <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none">
+            <path fill="#000000" fill-rule="evenodd" d="M2.945 11.76a1 1 0 101.86-.736c-.892-2.256.024-4.967 2.316-6.29 1.987-1.147 4.354-.879 5.934.45l-2.49.295a1 1 0 10.234 1.986l4.31-.509a1 1 0 00.863-.793l.802-3.927a1 1 0 00-1.96-.4l-.385 1.889c-2.226-1.939-5.573-2.302-8.308-.723C3 4.803 1.675 8.549 2.945 11.76zm14.11-3.52a1 1 0 00-1.86.736c.892 2.256-.024 4.967-2.316 6.29-1.987 1.147-4.355.879-5.934-.45l2.49-.295a1 1 0 00-.234-1.986l-4.31.509a1 1 0 00-.863.793l-.802 3.927a1 1 0 001.96.4l.385-1.889c2.226 1.939 5.573 2.302 8.308.723 3.12-1.801 4.446-5.547 3.176-8.758z"/>
+          </svg>
+        </ItemButton>
+      </div>
       <div class="row recommendations-list" v-if="recommendedEvents.length !== 0">
           <div class="col2 col-md6" v-for="rec in recommendedEvents">
             <ItemCardOrder :event="rec" />
@@ -98,7 +110,10 @@ onMounted(async () => {
 
 <style lang="sass" scoped>
 @import "@/assets/sass/helpers.sass"
-
+.heedaer
+  display: flex
+  justify-content: space-between
+  align-items: center
 .recommendations-list
   margin-bottom: 3rem
 
