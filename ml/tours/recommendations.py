@@ -27,7 +27,7 @@ def get_recommendations_for_user(user_oid):
     current_user_cluster = get_user_cluster_dict(current_user_raw)
 
     # Запрос данных из бд
-    users_raw = db.users.find(current_user_cluster, {"_id": {"$toString": "$_id"}, "likes": "$likes.events", "transactions": "$transactions.events"})
+    users_raw = db.users.find(current_user_cluster, {"_id": {"$toString": "$_id"}, "likes": "$likes.events", "transactions": "$transactions"})
     events_raw = db.events.find({}, {"_id": {"$toString": "$_id"}})
 
     # Преобразование в нужный нам формат для датафрейма
@@ -58,7 +58,8 @@ def get_recommendations_for_user(user_oid):
     for user in users_raw:
         # if likes in user:
         interactions_row = get_user_row_by_oid(user["_id"])[0]
-        interactions_sum = 0
+        # interactions_sum = 0
+        interactions_data_indexes = {}
 
         if "likes" in user:
             for event in user["likes"]:
@@ -66,17 +67,19 @@ def get_recommendations_for_user(user_oid):
                 interactions_row_pos.append(interactions_row)
                 interactions_col_pos.append(interactions_col)
                 interactions_data.append(LIKE_WEIGHT)
+                interactions_data_indexes[event] = len(interactions_data) -  1 #Записываем индексы для суммирования остальных взаимодействий
 
         if "transactions" in user:
             for event in user["transactions"]:
                 interactions_col_transaction = get_event_col_by_oid(event)[0]
-                if interactions_col_transaction == transactions_col: 
+                if event in user['likes']:
+                    idx = interactions_data_indexes[event]
+                    interactions_data[idx] += BUY_WEIGHT
+                else: # Если уже запись в матрице существует, то прибавляем значение
                     interactions_row_pos.append(interactions_row)
                     interactions_col_pos.append(interactions_col)
-                    # interactions_data[-1] += BUY_WEIGHT
-                else: # Если уже запись в матрице существует, то прибавляем значение
-                    interactions_sum += BUY_WEIGHT
-                    # interactions_data.append(interactions_sum)
+                    interactions_data.append(BUY_WEIGHT)
+        
         
     # Создание разреженной матрицы данных
     sparse_matrix = sp.csr_matrix((interactions_data, (interactions_row_pos, interactions_col_pos)), shape=(len(users), len(events)))
