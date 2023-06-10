@@ -57,6 +57,25 @@ class SiteUserController extends Controller
         return response()->json($user, 200);
     }
 
+    public function buy(Request $request, $userId, $eventId) {
+        $user = User::find($request->user_id);
+        
+        if(!isset($user->transactions)) {
+            $user->transactions = []
+        }
+
+        $transactions = $user->transactions;
+        
+        if (!in_array($eventId, $transactions)) {
+            array_push($transactions, $eventId);
+        }
+
+        $user->transactions = $transactions
+        $user->save();
+
+        return response()->json($user, 200);
+    }
+
     public function saveUserQuestionnaire(Request $req, $user_id) {
         $user = User::find($user_id);
         // Валидация на if'aх - самое стабильное, что может быть!
