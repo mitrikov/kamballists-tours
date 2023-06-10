@@ -30,6 +30,7 @@ use \App\Http\Controllers\TrackController;
 
 Route::prefix('user')->group(function (){
     Route::get('/likes/', [SiteUserController::class, 'likes']);
+    Route::get('/transactions/', [SiteUserController::class, 'transactions']);
     Route::get('/{id}/', [SiteUserController::class, 'user']);
 });
 
@@ -37,6 +38,7 @@ Route::put("users/{id}", [SiteUserController::class, 'saveUserQuestionnaire']);
 
 Route::get('new-user', [SiteUserController::class, 'newUser']);
 Route::get('like', [SiteUserController::class, 'like']);
+Route::get('buy', [SiteUserController::class, 'buy']);
 
 // Места и события
 Route::get('events', [EventController::class, 'get']);

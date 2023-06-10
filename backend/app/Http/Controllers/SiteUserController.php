@@ -30,6 +30,15 @@ class SiteUserController extends Controller
         }
     }
 
+    public function transactions(Request $request) {
+        $result = User::find($request->get('user_id'));
+        if(is_null($result->transactions)) {
+            return response()->json([], 200);
+        } else {
+            return response()->json($result->transactions, 200);
+        }
+    }
+
     public function like(Request $request) {
         $user = User::find($request->user_id);
         $event_id = $request->event_id;
@@ -57,20 +66,19 @@ class SiteUserController extends Controller
         return response()->json($user, 200);
     }
 
-    public function buy(Request $request, $userId, $eventId) {
+    public function buy(Request $request) {
         $user = User::find($request->user_id);
-        
+        $eventId = $request->event_id;
         if(!isset($user->transactions)) {
-            $user->transactions = []
+            $user->transactions = [];
         }
-
         $transactions = $user->transactions;
-        
+
         if (!in_array($eventId, $transactions)) {
             array_push($transactions, $eventId);
         }
 
-        $user->transactions = $transactions
+        $user->transactions = $transactions;
         $user->save();
 
         return response()->json($user, 200);
@@ -104,7 +112,7 @@ class SiteUserController extends Controller
                 'restaurants' => [],
             ];
         }
-       
+
         if(isset($user->traveler_type)) {
             if($user->traveler_type == "popular") {
                 array_push($user->likes, ["events" => ["64287f5158b0515ee399ac5e"]]);
@@ -124,7 +132,7 @@ class SiteUserController extends Controller
                 $user->likes['events'] = ["63f06c43961d4400a353cc71"];
             }
 
-            
+
             if($user->traveler_type == "vip") {
                 $user->likes['events'] = ["64287ab158b0515ee398ca99"];
             }
@@ -146,7 +154,7 @@ class SiteUserController extends Controller
                 'restaurants' => [],
             ];
         }
-       
+
         if(isset($user->traveler_type)) {
             if($user->traveler_type == "popular") {
 
@@ -167,7 +175,7 @@ class SiteUserController extends Controller
                 $user->likes->events = ["63f06c43961d4400a353cc71"];
             }
 
-            
+
             if($user->traveler_type == "vip") {
                 $user->likes->events = ["64287ab158b0515ee398ca99"];
             }

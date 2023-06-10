@@ -8,9 +8,7 @@
           <span class="card-content__age">{{event.dictionary_data.age ?? event.dictionary_data.age}}</span>
         </h5>
         <p class="card-content__desc" >{{ cutText(event.dictionary_data.description) }}</p>
-
       </div>
-
     </div>
 
     <ul class="card-content__list-strong">
@@ -23,9 +21,10 @@
     </ul>
 
     <div class="card-content__btns">
-      <button class="card-content__btn card-content__btn_show">
-        от {{ event.dictionary_data.ticket_price }} ₽
-        <span>Посмотреть</span></button>
+      <button class="card-content__btn card-content__btn_show" @click="buy">
+        {{ getTextForBtnBuy() }}
+        <span v-if="!event.isBuy">Приобрести</span>
+      </button>
       <button class="card-content__btn card-content__btn_like" @click="like">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path fill-rule="evenodd" clip-rule="evenodd"
@@ -41,6 +40,7 @@
 import useEventsStore from "@/stores/events";
 import { useUserStore } from "@/stores/user";
 import {onBeforeMount, onMounted} from "vue";
+import {server} from "@/helpers";
 
 
 const props = defineProps<{
@@ -67,9 +67,18 @@ function getColorFill(){
   return props.event.isLiked ? "red" : ""
 }
 
+function getTextForBtnBuy(){
+  return props.event.isBuy ? "Приобретено" : `от ${props.event.dictionary_data.ticket_price} ₽`
+}
+
 function like() {
   props.event.isLiked = true
   userStore.like(userStore.user_id, props.event)
+}
+
+function buy(){
+  props.event.isBuy = true
+  userStore.buy(userStore.user_id, props.event)
 }
 </script>
 

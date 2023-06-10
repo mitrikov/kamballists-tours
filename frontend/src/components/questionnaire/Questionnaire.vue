@@ -76,8 +76,8 @@ async function updateRecommendation() {
   let listRecomend = JSON.parse((await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id)).data)
 
   eventsStore.recommendedEvents = await server.get('events', {ids: listRecomend})
-  console.log(modifiedUser)
-  console.log(listRecomend)
+  // console.log(modifiedUser)
+  // console.log(listRecomend)
 }
 
 

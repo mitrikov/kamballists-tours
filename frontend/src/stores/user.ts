@@ -4,7 +4,8 @@ import {server} from "@/helpers";
 
 export const useUserStore = defineStore('user', () => {
   const user_id = ref(0)
-  const likes = ref([])
+  let likes = ref([])
+  let transactions = ref([])
 
   const init = async () => {
     let user_id: string | null = localStorage.getItem("user")
@@ -23,6 +24,13 @@ export const useUserStore = defineStore('user', () => {
     return likes
   }
 
+  const getListTransactions = async () => {
+    const transactions = await server.get('user/transactions', {
+      user_id: user_id.value
+    })
+    return transactions
+  }
+
   const like = async(user_id, event) => {
     await server.get(`like`, {
       user_id: user_id,
@@ -30,10 +38,22 @@ export const useUserStore = defineStore('user', () => {
     })
   }
 
-  const checkForExistence = (id) => {
+  const buy = async(user_id, event) => {
+    await server.get(`buy`, {
+      user_id: user_id,
+      event_id: event._id,
+    })
+  }
+
+  const checkForExistenceLikes = (id) => {
     // @ts-ignore
     return likes.value.events.find(e => id === e)
   }
 
-  return { user_id, likes, init, getListLikes, like, checkForExistence }
+  const checkForExistenceTransactions = (id) => {
+    // @ts-ignore
+    return transactions.value.find(e => id === e)
+  }
+
+  return { user_id, likes, transactions, init, getListLikes, getListTransactions, like, buy, checkForExistenceLikes, checkForExistenceTransactions }
 })

@@ -21,9 +21,8 @@ onMounted(async () => {
   eventsStore.events = eventsStore.eventsPag.data
   userStore.user_id = await userStore.init()
   userStore.likes = await userStore.getListLikes()
+  userStore.transactions = await userStore.getListTransactions()
   const answers = await server.get(`user/${userStore.user_id}`)
-  console.log("answers: ")
-  console.log(answers)
   //пхапх...
   if(answers.cuisines){
     historyStore.getAnswers().cuisines = answers.cuisines
@@ -32,18 +31,13 @@ onMounted(async () => {
     historyStore.getAnswers().traveler_wealth = answers.traveler_wealth
   }
 
-  console.log(historyStore.getAnswers())
-  
   const recommendedResponse = await axios.get(import.meta.env.VITE_DJANGO_URL + '/tours/recommended/' + userStore.user_id)
   const recommendedIds = JSON.parse(recommendedResponse.data)
 
   recommendedEvents.value = await server.get('events', {ids: recommendedIds })
-
-  console.log(recommendedEvents)
-
   if(userStore.likes.length > 0) {
     eventsStore.events.map(e => {
-      if (userStore.checkForExistence(e._id)) {
+      if (userStore.checkForExistenceLikes(e._id)) {
         e.isLiked = true
       } else {
         e.isLiked = false
@@ -51,6 +45,20 @@ onMounted(async () => {
       return e
     })
   }
+
+  if(userStore.transactions.length > 0) {
+    eventsStore.events.map(e => {
+      if (userStore.checkForExistenceTransactions(e._id)) {
+        e.isBuy = true
+      } else {
+        e.isBuy = false
+      }
+      return e
+    })
+  }
+
+  // console.log(eventsStore.events.filter(e => e.isLiked))
+  // console.log(eventsStore.events.filter(e => e.isBuy))
 })
 </script>
 <template>

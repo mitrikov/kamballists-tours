@@ -11,9 +11,9 @@ class EventController extends Controller
    public function get(Request $req) {
         $postsPerPage = 100;
         $result = Event::where('_id', '!=', '0');
-        
+
         $req->page = 30;
-        
+
         if($req->has('ids')) {
             $ids = explode(',', $req->get('ids'));
             return $this->getByIds($ids);

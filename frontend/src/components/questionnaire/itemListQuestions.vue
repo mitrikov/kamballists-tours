@@ -21,7 +21,7 @@ const highlightSelected = (e : Event) => {
   list.value?.querySelectorAll("div").forEach(item => {
     item.classList.remove("active")
   })
-  console.log(target)
+  // console.log(target)
   target.closest(".temp").classList.add("active")
   
 } 

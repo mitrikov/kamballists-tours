@@ -46,9 +46,8 @@ watch(date, (newValue, oldValue) => {
 
 <template>
   <div class="row place-and-date">
-    {{storyStore.stage.data.type}}
     <div class="col3" v-if="storyStore.stage.data.type <= 2">
-      <div class="item" >
+      <div class="item">
         <AutoComplete v-model="selectedPlace" :suggestions="listCities" @complete="search" dropdown forceSelection placeholder="Куда?" class="md:w-20rem w-full" />
       </div>
     </div>
